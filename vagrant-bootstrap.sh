@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 cd ~
-sudo apt-get update
-sudo apt-get install git-core
+sudo apt-get -y update
+sudo apt-get -y install git-core
 git clone https://github.com/MWGitHub/dotfiles.git
 
 # Run install scripts
