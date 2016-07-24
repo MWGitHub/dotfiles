@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
 cd ~
-apt-get update
-apt-get install git-core
+sudo apt-get update
+sudo apt-get install git-core
 git clone https://github.com/MWGitHub/dotfiles.git
+
+# Run install scripts
+chmod +x -R ./dotfiles/home/bin
+./dotfiles/home/bin/install-zsh.sh
 
 # From https://github.com/webcoyote/dotfiles configure.sh
 # Copy all dotfiles into home
