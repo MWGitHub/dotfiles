@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/trusty64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -46,10 +46,10 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
     # vb.gui = true
-  
+
     # Customize the amount of memory on the VM:
-    vb.memory = 2048
-    vb.cpus = 2
+    vb.memory = 1024
+    vb.cpus = 1
   end
   #
   # View the documentation for the provider you are using for more
@@ -69,7 +69,8 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  config.vm.provision :shell, path: "vagrant-bootstrap.sh"
+  config.vm.provision :shell, path: "vagrant-bootstrap.sh", privileged: false
+
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :private_network, ip: "192.168.50.50"
   config.vm.synced_folder ".", "/vagrant", nfs: true
