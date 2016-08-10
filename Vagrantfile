@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
   config.vm.provision :shell, path: "vagrant-bootstrap.sh", privileged: false
+  config.vm.provision :shell, inline: "sudo chsh -s /bin/zsh vagrant"
 
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :private_network, ip: "192.168.50.50"
