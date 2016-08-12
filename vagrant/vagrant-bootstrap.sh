@@ -8,4 +8,12 @@ git clone https://github.com/MWGitHub/dotfiles.git
 
 # Run bootstrap
 chmod +x ./dotfiles/bootstrap.sh
-./dotfiles/bootstrap.sh vagrant
+./dotfiles/bootstrap.sh
+
+# Set up keys
+cp /vagrant/conf/.ssh/id_rsa ~/.ssh/id_rsa
+chmod 700 ~/.ssh/id_rsa
+ssh-add ~/.ssh/id_rsa
+
+# Set environment
+./conf/setenv.sh
