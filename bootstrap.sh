@@ -7,7 +7,7 @@ sudo apt-get -y update
 chmod +x -R ./dotfiles/home/bin
 ./dotfiles/home/bin/install-zsh.sh
 
-# From https://github.com/webcoyote/dotfiles configure.sh
+# From https://github.com/webcoyote/dotfiles/blob/master/configure.sh
 # Copy all dotfiles into home
 function link_home() {
   for file in $1/?*; do

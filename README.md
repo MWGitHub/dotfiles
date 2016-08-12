@@ -3,7 +3,7 @@ My configuration and setup files.
 
 ## Usage
 
-This repository can be used in multiple ways. 
+This repository can be used in multiple ways.
 
 #### Manual installation
 

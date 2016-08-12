@@ -13,7 +13,10 @@ chmod +x ./dotfiles/bootstrap.sh
 # Set up keys
 cp /vagrant/conf/.ssh/id_rsa ~/.ssh/id_rsa
 chmod 700 ~/.ssh/id_rsa
-ssh-add ~/.ssh/id_rsa
 
 # Set environment
-./conf/setenv.sh
+
+/vagrant/conf/setenv.sh
+
+# Put user run script in home
+cp /vagrant/conf/userexec.sh ~/userexec.sh
