@@ -82,3 +82,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+echo "export NVM_DIR="$HOME/.nvm" >> ~/.zshrc
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+echo "export PG_USER=vagrant" >> ~/.zshrc
+echo "export PG_PASS=vagrant" >> ~/.zshrc
