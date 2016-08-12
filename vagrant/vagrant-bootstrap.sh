@@ -19,3 +19,8 @@ chmod 700 ~/.ssh/id_rsa
 
 # Put user run script in home
 cp /vagrant/userexec.sh ~/userexec.sh
+
+# Make folders
+mkdir work
+mkdir projects
+mkdir tools
