@@ -6,6 +6,8 @@ sudo apt-get -y update
 # Run install scripts
 chmod +x -R ./dotfiles/home/bin
 ./dotfiles/home/bin/install-zsh.sh
+./dotfiles/home/bin/install-postgresql.sh
+./dotfiles/home/bin/install-nvm.sh
 
 # From https://github.com/webcoyote/dotfiles/blob/master/configure.sh
 # Copy all dotfiles into home
