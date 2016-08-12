@@ -1,3 +1,6 @@
 [user]
   name = Michael Wang
   email = mwwpublic@gmail.com
+
+[alias]
+  lol = log --graph --decorate --oneline
