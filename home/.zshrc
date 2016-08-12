@@ -83,8 +83,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-echo "export NVM_DIR="$HOME/.nvm" >> ~/.zshrc
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-echo "export PG_USER=vagrant" >> ~/.zshrc
-echo "export PG_PASS=vagrant" >> ~/.zshrc
+export PG_USER=vagrant
+export PG_PASS=vagrant

@@ -15,8 +15,7 @@ cp /vagrant/conf/.ssh/id_rsa ~/.ssh/id_rsa
 chmod 700 ~/.ssh/id_rsa
 
 # Set environment
-
 /vagrant/conf/setenv.sh
 
 # Put user run script in home
-cp /vagrant/conf/userexec.sh ~/userexec.sh
+cp /vagrant/userexec.sh ~/userexec.sh
