@@ -6,7 +6,7 @@ sudo apt-get -y upgrade
 sudo apt-get -y install git-core
 git clone https://github.com/MWGitHub/dotfiles.git
 
-# Run bootstrap
+# Run bootstrapgrant
 chmod +x ./dotfiles/bootstrap.sh
 ./dotfiles/bootstrap.sh
 
@@ -21,6 +21,6 @@ chmod 700 ~/.ssh/id_rsa
 cp /vagrant/userexec.sh ~/userexec.sh
 
 # Make folders
-mkdir work
-mkdir projects
-mkdir tools
+mkdir /vagrant/work
+mkdir /vagrant/projects
+mkdir /vagrant/tools

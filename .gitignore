@@ -1,2 +1,5 @@
 .vagrant
 **/*.log
+vagrant/work
+vagrant/projects
+vagrant/tools
