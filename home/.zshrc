@@ -88,3 +88,4 @@ export NVM_DIR="$HOME/.nvm"
 
 export PG_USER=vagrant
 export PG_PASS=vagrant
+export VAULT_ADDR="https://vault-api.mwguy.com"
