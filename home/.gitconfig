@@ -10,3 +10,5 @@
 
 [alias]
   lol = log --graph --decorate --oneline
+[push]
+	default = simple
