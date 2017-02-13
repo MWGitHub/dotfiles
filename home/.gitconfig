@@ -2,6 +2,15 @@
   name = Michael Wang
   email = mwwpublic@gmail.com
 
+[color]
+	ui = true
+
+[core]
+	filemode = false
+	autocrlf = false
+	editor = /usr/local/bin/vim
+	pager = diff-so-fancy | less --tabs=2 -RFX
+
 [sendemail]
 	smtpEncryption = tls
 	smtpServer = smtp.gmail.com
