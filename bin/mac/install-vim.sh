@@ -5,7 +5,7 @@ brew install vim --override-system-vim
 
 curl https://j.mp/spf13-vim3 -L -o - | sh
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../"
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../.."
 
 # clean up previous files
 if [ -e "$HOME/.vimrc.local" ]; then
