@@ -86,6 +86,4 @@ source $ZSH/oh-my-zsh.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-export PG_USER=vagrant
-export PG_PASS=vagrant
-export VAULT_ADDR="https://vault-api.mwguy.com"
+source "$HOME/.zshrc.local"
