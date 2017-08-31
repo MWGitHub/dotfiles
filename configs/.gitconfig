@@ -19,5 +19,9 @@
 
 [alias]
   lol = log --graph --decorate --oneline
+	prune = fetch --prune
+	undo = reset --soft HEAD^
+	stash-all = stash save --include-untracked
+
 [push]
 	default = simple
