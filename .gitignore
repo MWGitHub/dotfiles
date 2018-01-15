@@ -4,3 +4,4 @@ vagrant/work
 vagrant/projects
 vagrant/tools
 .DS_Store
+**/*.swp
