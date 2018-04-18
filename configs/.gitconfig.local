@@ -1,0 +1,9 @@
+[user]
+  name = Michael Wang
+  email = mwwpublic@gmail.com
+
+[sendemail]
+	smtpEncryption = tls
+	smtpServer = smtp.gmail.com
+	smtpUser = mwwpublic@gmail.com
+	smtpServerPort = 587

@@ -1,7 +1,3 @@
-[user]
-  name = Michael Wang
-  email = mwwpublic@gmail.com
-
 [color]
 	ui = true
 
@@ -9,15 +5,12 @@
 	filemode = false
 	autocrlf = false
 	editor = /usr/local/bin/vim
-	pager = diff-so-fancy | less --tabs=2 -RFX
-
-[sendemail]
-	smtpEncryption = tls
-	smtpServer = smtp.gmail.com
-	smtpUser = mwwpublic@gmail.com
-	smtpServerPort = 587
+	pager = diff-so-fancy | less --tabs=2 -RFX # https://github.com/so-fancy/diff-so-fancy
+	excludesfile = ~/.gitignore_global
 
 [alias]
+	gds = diff --staged
+	co = checkout
   lol = log --graph --decorate --oneline
 	prune = fetch --prune
 	undo = reset --soft HEAD^
@@ -25,3 +18,6 @@
 
 [push]
 	default = simple
+
+[include]
+	path = ~/.gitconfig.local
