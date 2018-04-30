@@ -17,6 +17,4 @@ echo_color "\033[0;90m" "c-u  Delete entire line"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-eval $(thefuck --alias)
-
 source "$HOME/.zshrc.local"
