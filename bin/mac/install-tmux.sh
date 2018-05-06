@@ -2,6 +2,7 @@
 
 brew update
 brew install tmux
+brew install reattach-to-user-namespace --wrap-pbcopy-and-pbpaste
 
 # clean up previous files
 if [ -e "$HOME/.tmux.conf" ]; then
