@@ -14,6 +14,9 @@ echo_color "\033[0;90m" "c-h  Delete backward"
 echo_color "\033[0;90m" "c-k  Delete forward to end of line"
 echo_color "\033[0;90m" "c-u  Delete entire line"
 
+# Common script and tools paths
+export PATH="$HOME/tools:$HOME/scripts:$PATH"
+
 # Install nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
