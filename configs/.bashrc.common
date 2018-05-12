@@ -1,4 +1,13 @@
-keychain $HOME/.ssh/id_rsa
-source $HOME/.keychain/$HOSTNAME-sh
+keychain "$HOME/.ssh/id_rsa"
+source "$HOME/.keychain/$HOSTNAME-sh"
 
-export PATH=$HOME/tools:$HOME/scripts:$PATH;
+export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
+
+# Python
+export PATH="~/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Node
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
