@@ -29,6 +29,8 @@ ln -srf $(ls "$configs"/.tmux*) ~
 wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
 chmod +x "$HOME/scripts/diff-so-fancy"
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 # Install python
 curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 pip3 install pipenv
