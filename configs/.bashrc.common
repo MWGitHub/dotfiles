@@ -1,0 +1,2 @@
+keychain --noask $(ls $HOME/.ssh/*rsa*)
+source $HOME/.keychain/$HOSTNAME-sh
