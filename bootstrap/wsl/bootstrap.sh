@@ -25,6 +25,8 @@ ln -srf $(ls "$configs"/.bash*) ~
 ln -srf $(ls "$configs"/.git*) ~
 ln -srf $(ls "$configs"/.tmux*) ~
 
-wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -P "$HOME"/scripts -q
+wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
+chmod +x "$HOME/scripts/diff-so-fancy"
 
 echo "Bootstrapping completed"
+
