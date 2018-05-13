@@ -1,4 +1,4 @@
-keychain "$HOME/.ssh/id_rsa"
+keychain --lockwait 5 -Q "$HOME/.ssh/id_rsa"
 source "$HOME/.keychain/$HOSTNAME-sh"
 
 export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
