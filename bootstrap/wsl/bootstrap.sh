@@ -2,6 +2,11 @@
 
 echo "Beginning bootstrap for WSL"
 
+# Setting up keychain
+# sudo apt update
+# sudo apt install keychain
+# copy over or create a new ssh key pair
+
 # This is assuming keychains are set up
 sudo apt update
 sudo apt upgrade
