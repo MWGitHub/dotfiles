@@ -56,7 +56,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | 
 cd "$HOME/projects/dotfiles"
 git remote set-url origin git@github.com:MWGitHub/dotfiles.git
 
-bash
+source "$HOME/.bashrc"
 
 echo "Bootstrapping completed"
 
