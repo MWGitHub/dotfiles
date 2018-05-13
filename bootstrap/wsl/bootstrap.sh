@@ -29,7 +29,7 @@ if [ -d dotfiles ]; then
 	cd dotfiles
 	git pull
 else
-	git clone https://github.com/MWGitHub/dotfiles.git
+	git clone git@github.com:MWGitHub/dotfiles.git
 fi
 
 # Link config files
