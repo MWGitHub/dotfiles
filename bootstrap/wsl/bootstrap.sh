@@ -22,7 +22,7 @@ sudo apt upgrade -y
 sudo apt install openssh-server python3-pip -y
 sudo apt auto-remove -y
 
-mkdir -p "$HOME"/tools "$HOME"/scripts "$HOME"/projects
+mkdir -p "$HOME/tools" "$HOME/scripts" "$HOME/projects"
 
 projects="$HOME/projects"
 cd "$projects"
