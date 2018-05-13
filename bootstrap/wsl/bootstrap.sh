@@ -29,7 +29,7 @@ if [ -d dotfiles ]; then
 	cd dotfiles
 	git pull
 else
-	git clone git@github.com:MWGitHub/dotfiles.git
+	git clone https://github.com/MWGitHub/dotfiles.git 
 fi
 
 # Link config files
@@ -50,6 +50,12 @@ pip3 install pipenv
 
 # Install node
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash | PROFILE=/dev/null
+
+# Reset dotfiles origins
+cd "$HOME/projects/dotfiles"
+git remote set-url origin git@github.com:MWGitHub/dotfiles.git
+
+bash
 
 echo "Bootstrapping completed"
 
