@@ -12,7 +12,7 @@ This repository can be used in multiple ways.
 1. Close the Ubuntu session
 1. Inside windows command run `ubuntu config --default-user <username>`
 1. Open up the Ubuntu session, it should now default to the non-root usename
-1. run `wget -O - https://github.com/MWGitHub/dotfiles/blob/master/bootstrap/wsl/bootstrap.sh | bash
+1. run `wget -O - https://github.com/MWGitHub/dotfiles/blob/master/bootstrap/wsl/bootstrap.sh | bash`
 
 #### Manual installation
 
