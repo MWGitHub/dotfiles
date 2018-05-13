@@ -16,10 +16,10 @@ echo "Beginning bootstrap for WSL"
 # copy over or create a new ssh key pair
 
 # This is assuming keychains are set up
-sudo apt update
-sudo apt upgrade
-sudo apt install openssh-server python3-pip
-sudo apt auto-remove
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install openssh-server python3-pip -y
+sudo apt auto-remove -y
 
 mkdir -p "$HOME"/tools "$HOME"/scripts "$HOME"/projects
 
