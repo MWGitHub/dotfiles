@@ -2,6 +2,14 @@
 
 echo "Beginning bootstrap for WSL"
 
+# Create a user
+# adduser foo
+# usermod -aG sudo foo
+# log in as user
+# cd ~
+# mkdir .ssh
+# chmod 700 .ssh
+
 # Setting up keychain
 # sudo apt update
 # sudo apt install keychain
