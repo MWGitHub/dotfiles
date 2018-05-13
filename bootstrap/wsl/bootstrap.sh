@@ -14,6 +14,7 @@ echo "Beginning bootstrap for WSL"
 # sudo apt update
 # sudo apt install keychain
 # copy over or create a new ssh key pair
+# this assumes keychain uses id_rsa to access github
 
 # This is assuming keychains are set up
 sudo apt update -y
