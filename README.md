@@ -5,6 +5,15 @@ My configuration and setup files.
 
 This repository can be used in multiple ways.
 
+### WSL
+
+1. Install WSL Ubuntu
+1. Follow the instructions in the following file before running it: https://github.com/MWGitHub/dotfiles/blob/master/bootstrap/wsl/bootstrap.sh
+1. Close the Ubuntu session
+1. Inside windows command run `ubuntu config --default-user <username>`
+1. Open up the Ubuntu session, it should now default to the non-root usename
+1. run `wget -O - https://github.com/MWGitHub/dotfiles/blob/master/bootstrap/wsl/bootstrap.sh | bash
+
 #### Manual installation
 
 1. Clone the repository by running `git clone https://github.com/MWGitHub/dotfiles.git`
@@ -22,3 +31,4 @@ This repository can be used in multiple ways.
 1. Clone the repository by running `git clone https://github.com/MWGitHub/dotfiles.git`
 2. Run `vagrant up`.
 3. SSH into the machine with the generated key.
+
