@@ -15,7 +15,7 @@ This repository can be used in multiple ways.
 
 To begin bootstrapping, run the following command in the Ubuntu session:
 ```
-wget -O - https://github.com/MWGitHub/dotfiles/blob/master/bootstrap/wsl/bootstrap.sh | bash
+wget -O - https://raw.githubusercontent.com/MWGitHub/dotfiles/master/bootstrap/wsl/bootstrap.sh | bash
 ```
 
 #### Manual installation
