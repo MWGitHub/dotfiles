@@ -21,7 +21,7 @@ function install_common() {
 	sudo apt update -y
 	sudo apt upgrade -y
 	sudo apt install openssh-server python3-pip cmake gcc \
-			 clang gdb build-essential -y
+			 clang gdb build-essential unzip -y
 	sudo apt auto-remove -y
 }
 
