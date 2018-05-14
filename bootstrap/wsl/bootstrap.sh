@@ -43,21 +43,26 @@ ln -srf $(ls "$configs"/.tmux*) ~
 wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
 chmod +x "$HOME/scripts/diff-so-fancy"
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
 
 # Install python
 curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 pip3 install pipenv
 
 # Install node
-mkdir -p "$HOME/.nvm"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash | PROFILE="$HOME/.bashrc.common" NVM_DIR="$HOME/.nvm"
+if [ ! -d "$HOME/.nvm" ]; then
+	git clone https://github.com/creationix/nvm.git "$HOME/.nvm"
+	cd "$HOME/.nvm"
+	git checkout v0.33.11
+fi
 
 # Reset dotfiles origins
 cd "$HOME/projects/dotfiles"
 git remote set-url origin git@github.com:MWGitHub/dotfiles.git
 
-source "$HOME/.bashrc"
+exec bash
 
 echo "Bootstrapping completed"
 
