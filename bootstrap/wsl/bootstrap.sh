@@ -23,6 +23,8 @@ sudo apt install openssh-server python3-pip -y
 
 # This sets up an ssh server and allows for external tools to connect
 # Make sure to allow password authentication if connecting with CLion in /etc/ssh/sshd_config
+# If on an older version of Ubuntu, set UsePrivilegeSeparate to no
+# Switch port to 2222
 sudo apt remove -y --purge openssh-server
 sudo apt install -y openssh-server
 # sudo systemctl enable ssh # at the moment WSL does not run systemd
