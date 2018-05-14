@@ -14,6 +14,9 @@ export NVM_DIR="$HOME/.nvm"
 
 # Start ssh server
 if [ "$START_SSH" == "true" ]; then
-	echo "Starting ssh server..."
-	sudo service ssh start
+	sshd_running=$(ps aux | grep -v grep | grep sshd)
+	if [ -z "$sshd_running" ]; then
+		echo "Starting ssh server..."
+		sudo service ssh start
+	fi
 fi
