@@ -21,7 +21,10 @@ function install_common() {
 	sudo apt update -y
 	sudo apt upgrade -y
 	sudo apt install openssh-server python3-pip cmake gcc \
-			 clang gdb build-essential unzip p7zip-full -y
+		 clang gdb build-essential unzip p7zip-full \
+		 libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
+		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
+		 libncursesw5-dev xz-utils tk-dev -y
 	sudo apt auto-remove -y
 }
 
@@ -93,11 +96,15 @@ function set_wsl_configs() {
 
 function install_tools() {
 	cd "$HOME/tools"
+
+	# Install terraform
 	if [ ! -f "$HOME/tools/terraform" ]; then
 		wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
 		unzip terraform*.zip
 		rm terraform*.zip
 	fi
+
+	# Install v ault
 	if [ ! -f "$HOME/tools/vault" ]; then
 		wget https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip
 		unzip vault*.zip
