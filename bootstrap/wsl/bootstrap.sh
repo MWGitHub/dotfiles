@@ -20,6 +20,14 @@ echo "Beginning bootstrap for WSL"
 sudo apt update -y
 sudo apt upgrade -y
 sudo apt install openssh-server python3-pip -y
+
+# This sets up an ssh server and allows for external tools to connect
+# Make sure to allow password authentication if connecting with CLion in /etc/ssh/sshd_config
+sudo apt remove -y --purge openssh-server
+sudo apt install -y openssh-server
+# sudo systemctl enable ssh # at the moment WSL does not run systemd
+sudo apt install cmake gcc clang gdb build-essential -y
+
 sudo apt auto-remove -y
 
 mkdir -p "$HOME/tools" "$HOME/scripts" "$HOME/projects"

@@ -11,3 +11,6 @@ eval "$(pyenv virtualenv-init -)"
 # Node
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Start ssh server
+sudo service ssh start
