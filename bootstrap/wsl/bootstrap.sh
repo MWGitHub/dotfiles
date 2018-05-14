@@ -24,7 +24,7 @@ function install_common() {
 		 clang gdb build-essential unzip p7zip-full \
 		 libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
-		 libncursesw5-dev xz-utils tk-dev -y
+		 libncursesw5-dev xz-utils tk-dev xsel -y
 	sudo apt auto-remove -y
 }
 
