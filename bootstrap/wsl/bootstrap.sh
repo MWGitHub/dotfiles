@@ -92,11 +92,21 @@ function set_wsl_configs() {
 }
 
 function install_tools() {
+	cd "$HOME/tools"
 	if [ ! -f "$HOME/tools/terraform" ]; then
-		echo "Installing terraform"
+		wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
+		unzip terraform*.zip
+		rm terraform*.zip
+	fi
+	if [ ! -f "$HOME/tools/vault" ]; then
+		wget https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip
+		unzip vault*.zip
+		rm vault*.zip
 	fi
 }
 
+
+starting_dir=$PWD
 
 install_common
 install_remote
@@ -105,7 +115,8 @@ install_language_managers
 set_wsl_configs
 install_tools
 
-exec bash
+cd "$starting_dir"
 
 echo "Bootstrapping completed"
 
+exec bash
