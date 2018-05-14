@@ -70,6 +70,12 @@ fi
 cd "$HOME/projects/dotfiles"
 git remote set-url origin git@github.com:MWGitHub/dotfiles.git
 
+# WSL specific variables
+appended_ssh=$(cat "$HOME/.bashrc.local" | grep START_SSH)
+if [ -z "$appended_ssh" ]; then
+	echo export START_SSH="true" >> "$HOME/.bashrc.local"
+fi
+
 exec bash
 
 echo "Bootstrapping completed"
