@@ -6,3 +6,4 @@ vagrant/tools
 .DS_Store
 **/*.swp
 .idea/
+*.local
