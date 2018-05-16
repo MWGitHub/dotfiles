@@ -14,11 +14,14 @@ echo_color "\033[0;90m" "c-h  Delete backward"
 echo_color "\033[0;90m" "c-k  Delete forward to end of line"
 echo_color "\033[0;90m" "c-u  Delete entire line"
 
+# Platform checks
 platform=$(uname)
 if [ "$platform" == "linux" ]; then
     keychain --lockwait 5 -Q "$HOME/.ssh/id_rsa"
     source "$HOME/.keychain/$HOSTNAME-sh"
 fi
+
+wsl=$(uname -r | grep Mircosoft$)
 
 export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
 
@@ -41,5 +44,7 @@ if [ "$START_SSH" == "true" ]; then
 fi
 
 # WSL Docker Host
-export DOCKER_COMPOSE_VERSION=1.21.0
-export DOCKER_HOST=tcp://0.0.0.0:2375
+if [ -n "$wsl" ]; then
+	export DOCKER_COMPOSE_VERSION=1.21.0
+	export DOCKER_HOST=tcp://0.0.0.0:2375
+fi
