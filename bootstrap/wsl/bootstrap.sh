@@ -24,7 +24,9 @@ function install_common() {
 		 clang gdb build-essential unzip p7zip-full \
 		 libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
-		 libncursesw5-dev xz-utils tk-dev xsel -y
+		 libncursesw5-dev xz-utils tk-dev xsel \
+		 apt-transport-https ca-certificates curl \
+		 htop software-properties-common -y
 	sudo apt auto-remove -y
 }
 
@@ -37,6 +39,21 @@ function install_remote() {
 	sudo apt install -y openssh-server
 	# sudo systemctl enable ssh # at the moment WSL does not run systemd
 	sudo apt auto-remove -y
+}
+
+function install_docker_wsl() {
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	sudo apt-key fingerprint 0EBFCD88
+
+	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+	sudo apt update
+	sudo apt install -y docker-ce
+	sudo usermod -aG docker $USER
+
+	# Install Docker Compose.
+	sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
+	sudo chmod +x /usr/local/bin/docker-compose
 }
 
 function link_configs() {
@@ -117,6 +134,7 @@ starting_dir=$PWD
 
 install_common
 install_remote
+install_docker_wsl
 link_configs
 install_language_managers
 set_wsl_configs

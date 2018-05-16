@@ -39,3 +39,7 @@ if [ "$START_SSH" == "true" ]; then
 		sudo service ssh start
 	fi
 fi
+
+# WSL Docker Host
+export DOCKER_COMPOSE_VERSION=1.21.0
+export DOCKER_HOST=tcp://0.0.0.0:2375
