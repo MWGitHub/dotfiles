@@ -16,7 +16,7 @@ echo_color "\033[0;90m" "c-u  Delete entire line"
 
 # Platform checks
 platform=$(uname)
-if [ "$platform" == "linux" ]; then
+if [ "$platform" == "Linux" ]; then
     keychain --lockwait 5 -Q "$HOME/.ssh/id_rsa"
     source "$HOME/.keychain/$HOSTNAME-sh"
 fi
