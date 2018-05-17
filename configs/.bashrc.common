@@ -21,7 +21,7 @@ if [ "$platform" == "Linux" ]; then
     source "$HOME/.keychain/$HOSTNAME-sh"
 fi
 
-wsl=$(uname -r | grep Mircosoft$)
+wsl=$(uname -r | grep Microsoft$)
 
 export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
 
