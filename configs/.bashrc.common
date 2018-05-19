@@ -1,3 +1,10 @@
+if [ -e /usr/share/terminfo/x/xterm-24 ]; then
+	export TERM="xterm-24"
+elif [ -e /usr/share/terminfo/x/xterm-256 ]; then
+	export TERM="xterm-256"
+else
+	export TERM="xterm-color"
+fi
 # MOTD
 function echo_color() {
   local color="$1"
