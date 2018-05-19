@@ -127,6 +127,12 @@ function install_tools() {
 		unzip vault*.zip
 		rm vault*.zip
 	fi
+
+	sudo apt-get update
+	sudo apt-get install software-properties-common
+	sudo apt-add-repository ppa:ansible/ansible
+	sudo apt-get update
+	sudo apt-get install ansible
 }
 
 
