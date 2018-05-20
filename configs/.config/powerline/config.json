@@ -1,4 +1,15 @@
 {
-  "term_truecolor": true,
-  "colorscheme": "tomorrow-dark"
+  "common": {
+    "term_truecolor": true
+  },
+  "ext": {
+    "shell": {
+      "colorscheme": "common",
+      "theme": "common"
+    },
+    "tmux": {
+      "colorscheme": "common",
+      "theme": "common"
+    }
+  }
 }

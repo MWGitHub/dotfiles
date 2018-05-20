@@ -1,7 +1,0 @@
-{
-  "name": "tomorrow-dark",
-  "groups": {
-    "time": { "fg": "rgb(255,0,0)", "bg": "rgb(0,255,0)", "attrs": [] }
-  }
-}
-
