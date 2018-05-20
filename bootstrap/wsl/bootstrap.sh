@@ -77,17 +77,6 @@ function link_configs() {
 	ln -srf $(ls "$configs"/.vimrc*) ~
 }
 
-function install_plugins() {
-	# Install dependencies the configs use
-	wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
-	chmod +x "$HOME/scripts/diff-so-fancy"
-
-	# tmux plugin manager
-	if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	fi
-}
-
 function install_language_managers() {
 	# Install python
 	curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
@@ -105,6 +94,20 @@ function install_language_managers() {
 	git remote set-url origin git@github.com:MWGitHub/dotfiles.git
 }
 
+function install_plugins() {
+	# Install dependencies the configs use
+	wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
+	chmod +x "$HOME/scripts/diff-so-fancy"
+
+	# tmux plugin manager
+	if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	fi
+
+	# Install powerlines, make sure there's a support font
+	# https://github.com/powerline/fonts
+	pip install --user powerline-status
+}
 function set_wsl_configs() {
 	# WSL specific variables
 	appended_ssh=$(cat "$HOME/.bashrc.local" | grep START_SSH)
@@ -143,6 +146,7 @@ install_remote
 install_docker_wsl
 link_configs
 install_language_managers
+install_plugins
 set_wsl_configs
 install_tools
 

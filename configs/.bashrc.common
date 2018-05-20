@@ -48,6 +48,13 @@ if [ -n "$wsl" ]; then
 	export DOCKER_HOST=tcp://0.0.0.0:2375
 fi
 
+# Powerline
+powerline-daemon -q
+POWERLINE_BASH_CONTINUATION=1
+POWERLINE_BASH_SELECT=1
+POWERLINE_PATH=$(find $HOME/.local/lib/*/site-packages/powerline -maxdepth 0)
+. "$POWERLINE_PATH/bindings/bash/powerline.sh"
+
 # Aliases
 alias sc="cd ~/scripts"
 alias to="cd ~/tools"
