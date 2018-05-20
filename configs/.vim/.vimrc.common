@@ -18,6 +18,7 @@ set ruler
 set smartindent
 set incsearch
 set hlsearch
+let @/ = ""
 
 " Mapping and shortcuts
 let mapleader=" "
