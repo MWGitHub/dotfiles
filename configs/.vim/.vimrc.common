@@ -2,9 +2,9 @@ filetype on
 syntax on
 
 " Colors
+colorscheme Tomorrow-Night
 highlight ColorColumn ctermbg=Red
 highlight Visual ctermbg=DarkBlue
-colorscheme Tomorrow-Night
 
 " Default editing settings
 set expandtab
