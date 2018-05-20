@@ -22,8 +22,10 @@ let @/ = ""
 
 " Mapping and shortcuts
 let mapleader=" "
-map <leader>s :source ~/.vimrc<CR>
+map <leader>r :source ~/.vimrc<CR>
 map <leader>/ :nohlsearch<CR>
+map <leader>j :m .+1<CR>==
+map <leader>k :m .-2<CR>==
 
 " Plugins
 set runtimepath^=~/.vim/bundle/pip-powerline/pip-powerline.vim
