@@ -1,0 +1,9 @@
+# To use common configuration in %APPDATA%\mintty, simply remove this file
+Font=DejaVu Sans Mono for Powerline
+FontHeight=14
+CursorType=block
+ThemeFile=C:\Users\MW-BK-PC\AppData\Roaming\wsltty\themes\tomorrow.dark.minttyrc
+Term=xterm
+Transparency=Low
+Charwidth=unicode
+Emojis=windows
