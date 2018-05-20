@@ -75,6 +75,7 @@ function link_configs() {
 	ln -srf $(ls "$configs"/.tmux*) ~
 	ln -sf "$configs/.vim" "$HOME/.vim"
 	ln -srf $(ls "$configs"/.vimrc*) ~
+	ln -sf "$configs/.config" "$HOME/.config"
 }
 
 function install_language_managers() {
