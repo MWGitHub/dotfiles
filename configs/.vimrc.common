@@ -2,4 +2,9 @@ filetype on
 syntax on
 colorscheme Tomorrow-Night
 
+" Default editing settings
+set expandtab
+set tabstop=2
+set shiftwidth=4
+
 set runtimepath^=~/.vim/bundle/pip-powerline/pip-powerline.vim
