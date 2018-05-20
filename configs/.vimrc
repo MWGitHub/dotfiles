@@ -1,2 +1,2 @@
-source ~/.vimrc.common
-source ~/.vimrc.local
+source ~/.vim/.vimrc.common
+source ~/.vim/.vimrc.local

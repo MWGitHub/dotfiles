@@ -1,0 +1,28 @@
+filetype on
+syntax on
+
+" Colors
+highlight ColorColumn ctermbg=Red
+highlight Visual ctermbg=DarkBlue
+colorscheme Tomorrow-Night
+
+" Default editing settings
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set colorcolumn=80
+set number
+set relativenumber
+set wildmenu
+set ruler
+set smartindent
+set incsearch
+set hlsearch
+
+" Mapping and shortcuts
+let mapleader=" "
+map <leader>s :source ~/.vimrc<CR>
+map <leader>/ :nohlsearch<CR>
+
+" Plugins
+set runtimepath^=~/.vim/bundle/pip-powerline/pip-powerline.vim
