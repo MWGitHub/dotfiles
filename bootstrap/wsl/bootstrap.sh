@@ -69,10 +69,12 @@ function link_configs() {
 	fi
 
 	# Link config files
-	configs="$HOME"/projects/dotfiles/configs
+	configs="$HOME/projects/dotfiles/configs"
 	ln -srf $(ls "$configs"/.bash*) ~
 	ln -srf $(ls "$configs"/.git*) ~
 	ln -srf $(ls "$configs"/.tmux*) ~
+	ln -sf "$configs/.vim" "$HOME/.vim"
+	ln -srf $(ls "$configs"/.vimrc*) ~
 }
 
 function install_plugins() {
@@ -128,10 +130,8 @@ function install_tools() {
 		rm vault*.zip
 	fi
 
-	sudo apt-get update
-	sudo apt-get install software-properties-common
-	sudo apt-add-repository ppa:ansible/ansible
-	sudo apt-get update
+	sudo apt-add-repository ppa:ansible/ansible -y
+	sudo apt-get update -y
 	sudo apt-get install ansible
 }
 
