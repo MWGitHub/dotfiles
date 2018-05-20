@@ -81,6 +81,8 @@ function install_language_managers() {
 	# Install python
 	curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 	pip3 install pipenv
+	pyenv global 3.6.5
+	pip install --upgrade pip
 
 	# Install node
 	if [ ! -d "$HOME/.nvm" ]; then
@@ -126,7 +128,7 @@ function install_tools() {
 		rm terraform*.zip
 	fi
 
-	# Install v ault
+	# Install vault
 	if [ ! -f "$HOME/tools/vault" ]; then
 		wget https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip
 		unzip vault*.zip
@@ -136,6 +138,9 @@ function install_tools() {
 	sudo apt-add-repository ppa:ansible/ansible -y
 	sudo apt-get update -y
 	sudo apt-get install ansible
+
+	# Install aws
+	pip install awscli --upgrade --user
 }
 
 

@@ -1,3 +1,5 @@
 filetype on
 syntax on
 colorscheme Tomorrow-Night
+
+set runtimepath^=~/.vim/bundle/pip-powerline/pip-powerline.vim
