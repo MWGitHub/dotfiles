@@ -42,6 +42,9 @@ eval "$(pyenv virtualenv-init -)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+# Rust
+export PATH=$HOME/.cargo/bin:$PATH
+
 # Start ssh server
 if [ "$START_SSH" == "true" ]; then
 	sshd_running=$(ps aux | grep -v grep | grep sshd)
