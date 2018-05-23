@@ -1,1 +1,0 @@
-/home/mw/projects/dotfiles/configs/.vim
