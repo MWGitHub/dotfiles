@@ -95,6 +95,10 @@ function install_language_managers() {
 	# Reset dotfiles origins
 	cd "$HOME/projects/dotfiles"
 	git remote set-url origin git@github.com:MWGitHub/dotfiles.git
+
+  # Rust
+  curl https://sh.rustup.rs -sSf | sh
+  ~/.cargo/bin/cargo install racer
 }
 
 function install_plugins() {

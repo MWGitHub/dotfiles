@@ -39,6 +39,7 @@ set runtimepath^=~/.vim/bundle/pip-powerline/pip-powerline.vim
 " vim-plug
 call plug#begin('~/vim/plugged')
 
+Plug 'racer-rust/vim-racer'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 
 call plug#end()
