@@ -34,9 +34,10 @@ fi
 export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
 
 # Python
-export PATH="~/.pyenv/bin:$PATH"
+export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+eval "$(pipenv --completion)"
 
 # Node
 export NVM_DIR="$HOME/.nvm"
@@ -46,12 +47,14 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$HOME/.cargo/bin:$PATH
 
 # Start ssh server
-if [ "$START_SSH" == "true" ]; then
-	sshd_running=$(ps aux | grep -v grep | grep sshd)
-	if [ -z "$sshd_running" ]; then
-		echo "Starting ssh server..."
-		sudo service ssh start
-	fi
+if [ "$platform" != 'Darwin' ]; then
+    if [ "$START_SSH" == "true" ]; then
+        sshd_running=$(ps aux | grep -v grep | grep sshd)
+        if [ -z "$sshd_running" ]; then
+            echo "Starting ssh server..."
+            sudo service ssh start
+        fi
+    fi
 fi
 
 # WSL Docker Host
