@@ -7,3 +7,5 @@ vagrant/tools
 **/*.swp
 .idea/
 *.local
+htop/
+*/.vim/plugged/
