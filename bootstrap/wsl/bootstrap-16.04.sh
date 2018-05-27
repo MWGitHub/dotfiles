@@ -26,6 +26,7 @@ function install_common() {
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
 		 libncursesw5-dev xz-utils tk-dev xsel \
 		 apt-transport-https ca-certificates curl \
+     python-dev python3-dev \
 		 htop software-properties-common -y
 	sudo apt auto-remove -y
 }
