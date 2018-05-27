@@ -71,7 +71,10 @@ function link_configs() {
 
 	# Link config files
 	configs="$HOME/projects/dotfiles/configs"
-	ln -srf $(ls "$configs"/.bash*) ~
+  ln -sf "$configs/.bashrc" "$HOME/.bashrc"
+  if [ ! -h "$HOME/.bashconf" ]; then
+    ln -sf "$configs/.bashconf" "$HOME/.bashconf"
+  fi
 	ln -srf $(ls "$configs"/.git*) ~
 	ln -srf $(ls "$configs"/.tmux*) ~
   if [ ! -h "$HOME/.vim" ]; then

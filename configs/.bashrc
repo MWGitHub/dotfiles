@@ -116,5 +116,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-source $HOME/.bashrc.local
-source $HOME/.bashrc.common
+source $HOME/.bashconf/.bashrc.local
+source $HOME/.bashconf/.bashrc.common
