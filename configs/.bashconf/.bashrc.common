@@ -81,4 +81,5 @@ export POWERLINE_PATH=$(find $HOME/.local/lib/*3.6/site-packages/powerline -maxd
 alias sc="cd ~/scripts"
 alias to="cd ~/tools"
 alias pj="cd ~/projects"
+
 alias eb="exec bash"
