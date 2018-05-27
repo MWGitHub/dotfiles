@@ -35,6 +35,11 @@ export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
 
 # Python
 export PATH="$HOME/.pyenv/bin:$PATH"
+if [ "$platform" == "Linux" ]; then
+  export PYTHON_CONFIGURE_OPTS="--enable-shared"
+elif [ "$platform" == "Darwin" ]; then
+  export PYTHON_CONFIGURE_OPTS="--enable-framework"
+fi
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 eval "$(pipenv --completion)"
