@@ -73,6 +73,7 @@ fi
 powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1
 POWERLINE_BASH_SELECT=1
+#export POWERLINE_PATH="/usr/share/powerline"
 export POWERLINE_PATH=$(find $HOME/.local/lib/*3.6/site-packages/powerline -maxdepth 0)
 . "$POWERLINE_PATH/bindings/bash/powerline.sh"
 
@@ -80,3 +81,4 @@ export POWERLINE_PATH=$(find $HOME/.local/lib/*3.6/site-packages/powerline -maxd
 alias sc="cd ~/scripts"
 alias to="cd ~/tools"
 alias pj="cd ~/projects"
+alias eb="exec bash"

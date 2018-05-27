@@ -26,8 +26,8 @@ function install_common() {
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
 		 libncursesw5-dev xz-utils tk-dev xsel \
 		 apt-transport-https ca-certificates curl \
-     python-dev python3-dev jq tree \
-		 htop software-properties-common -y
+     python-dev python3-dev socat psutil hglib pygit2 pyuv \
+		 htop software-properties-common jq tree -y
 	sudo apt auto-remove -y
 }
 
