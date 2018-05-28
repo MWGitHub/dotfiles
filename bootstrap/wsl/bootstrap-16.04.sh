@@ -27,7 +27,7 @@ function install_common() {
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
 		 libncursesw5-dev xz-utils tk-dev libgit2-24 libgit2-dev \
 		 apt-transport-https ca-certificates \
-     python-dev python3-dev \
+     python-dev python3-dev libutf8proc-dev libutf8proc1 \
 		 software-properties-common -y
   # tmux 2.7 requirements
   sudo apt install automake build-essential pkg-config libevent-dev \
@@ -208,7 +208,7 @@ function install_tools() {
     git clone https://github.com/tmux/tmux.git
     cd tmux && git checkout 2.7
     sh autogen.sh
-    ./configure && make
+    ./configure --enable-utf8proc && make
     sudo make install
   fi
 }
