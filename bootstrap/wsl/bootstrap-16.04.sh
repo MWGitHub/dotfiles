@@ -20,14 +20,20 @@ echo "Beginning bootstrap for WSL"
 function install_common() {
 	sudo apt update -y
 	sudo apt upgrade -y
+  # Required software for building other dependencies
 	sudo apt install openssh-server python3-pip cmake gcc \
-		 clang gdb build-essential unzip p7zip-full \
+		 clang gdb build-essential unzip p7zip-full tar \
 		 libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
-		 libncursesw5-dev xz-utils tk-dev \
-		 apt-transport-https ca-certificates curl \
-     python-dev python3-dev socat psutil hglib pygit2 pyuv \
-		 htop software-properties-common jq tree -y
+		 libncursesw5-dev xz-utils tk-dev libgit2-24 libgit2-dev \
+		 apt-transport-https ca-certificates \
+     python-dev python3-dev \
+		 software-properties-common -y
+  # tmux 2.7 requirements
+  sudo apt install automake build-essential pkg-config libevent-dev \
+    libncurses5-dev ncurses-dev -y
+  # Standard and nice software to have
+  sudo apt install htop jq tree curl wget -y
 	sudo apt auto-remove -y
 }
 
@@ -66,7 +72,12 @@ function link_configs() {
 		cd dotfiles
 		git pull
 	else
+    # Use https first before git in case ssh is not set up yet
 		git clone https://github.com/MWGitHub/dotfiles.git 
+
+    # Reset dotfiles origins
+    cd "$HOME/projects/dotfiles"
+    git remote set-url origin git@github.com:MWGitHub/dotfiles.git
 	fi
 
 	# Link config files
@@ -75,23 +86,55 @@ function link_configs() {
   if [ ! -h "$HOME/.bashconf" ]; then
     ln -sf "$configs/.bashconf" "$HOME/.bashconf"
   fi
+
 	ln -srf $(ls "$configs"/.git*) ~
+
 	ln -srf $(ls "$configs"/.tmux*) ~
+
   if [ ! -h "$HOME/.vim" ]; then
   	ln -sf "$configs/.vim" "$HOME/.vim"
   fi
 	ln -srf $(ls "$configs"/.vimrc*) ~
+
   if [ ! -h "$HOME/.config" ]; then
   	ln -sf "$configs/.config" "$HOME/.config"
   fi
+
+  source "$HOME/.bashrc"
 }
 
 function install_language_managers() {
 	# Install python
 	curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-	pip3 install pipenv
-	pyenv global 3.6.5
-	pip install --upgrade pip
+
+  sudo apt install socat -y
+
+  has_pyenv2=$(pyenv versions | grep 2.7.15)
+  if [ -z "$has_pyenv2" ]; then
+    pyenv install 2.7.15
+  fi
+  pyenv global 2.7.15
+  pip install --upgrade pip
+  pip install --user pipenv
+  # Powerlines optional dependencies
+  pip install --user psutil
+  pip install --user python-hglib
+  pip install --user pygit2==0.24.2
+  pip install --user pyuv
+
+  has_pyenv3=$(pyenv versions | grep 3.6.5)
+  if [ -z "$has_pyenv3" ]; then
+    pyenv install 3.6.5
+  fi
+  pyenv global 3.6.5
+
+  pip install --upgrade pip
+  pip install --user pipenv
+  # Powerlines optional dependencies
+  pip install --user psutil
+  pip install --user python-hglib
+  pip install --user pygit2==0.24.2
+  pip install --user pyuv
 
 	# Install node
 	if [ ! -d "$HOME/.nvm" ]; then
@@ -100,13 +143,15 @@ function install_language_managers() {
 		git checkout v0.33.11
 	fi
 
-	# Reset dotfiles origins
-	cd "$HOME/projects/dotfiles"
-	git remote set-url origin git@github.com:MWGitHub/dotfiles.git
 
   # Rust
-  curl https://sh.rustup.rs -sSf | sh
-  ~/.cargo/bin/cargo install racer
+  has_rust=$(which rustc)
+  if [ -z "$has_rust" ]; then
+    curl https://sh.rustup.rs -sSf | sh
+    ~/.cargo/bin/cargo install racer
+  else
+    rustup update
+  fi
 }
 
 function install_plugins() {
