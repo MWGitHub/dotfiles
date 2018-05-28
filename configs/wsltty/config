@@ -1,9 +1,12 @@
 # To use common configuration in %APPDATA%\mintty, simply remove this file
 Font=DejaVu Sans Mono for Powerline
-FontHeight=12
+FontHeight=10
 CursorType=block
-ThemeFile=C:\Users\MW-BK-PC\AppData\Roaming\wsltty\themes\tomorrow.dark.minttyrc
-Term=xterm
+ThemeFile=C:\Users\MW-BK-PC\AppData\Roaming\wsltty\themes\dracula.minttyrc
+Term=xterm-256color
 Transparency=Low
 Charwidth=unicode
 Emojis=windows
+AllowSetSelection=true
+Columns=165
+Rows=50
