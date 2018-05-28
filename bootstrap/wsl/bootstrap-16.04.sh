@@ -24,7 +24,7 @@ function install_common() {
 		 clang gdb build-essential unzip p7zip-full \
 		 libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
-		 libncursesw5-dev xz-utils tk-dev xsel \
+		 libncursesw5-dev xz-utils tk-dev \
 		 apt-transport-https ca-certificates curl \
      python-dev python3-dev socat psutil hglib pygit2 pyuv \
 		 htop software-properties-common jq tree -y

@@ -14,6 +14,8 @@ echo_color "\033[0;90m" "c-h  Delete backward"
 echo_color "\033[0;90m" "c-k  Delete forward to end of line"
 echo_color "\033[0;90m" "c-u  Delete entire line"
 
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # Platform checks
 platform=$(uname)
 if [ "$platform" == "Linux" ]; then
@@ -73,7 +75,6 @@ fi
 powerline-daemon -q
 POWERLINE_BASH_CONTINUATION=1
 POWERLINE_BASH_SELECT=1
-#export POWERLINE_PATH="/usr/share/powerline"
 export POWERLINE_PATH=$(find $HOME/.local/lib/*3.6/site-packages/powerline -maxdepth 0)
 . "$POWERLINE_PATH/bindings/bash/powerline.sh"
 
