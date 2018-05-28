@@ -1,11 +1,6 @@
 filetype on
 syntax on
 
-" Colors
-colorscheme Tomorrow-Night
-highlight ColorColumn ctermbg=Red
-highlight Visual ctermbg=DarkBlue
-
 " Default editing settings
 set autoread
 set backspace=indent,eol,start
@@ -36,7 +31,11 @@ map <leader>k :m .-2<CR>==
 " vim-plug
 call plug#begin('~/.vim/plugged')
 
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'racer-rust/vim-racer'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --rust-completer' }
 
 call plug#end()
+
+" Colors
+color dracula
