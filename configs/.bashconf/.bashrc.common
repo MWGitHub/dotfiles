@@ -16,6 +16,9 @@ echo_color "\033[0;90m" "c-u  Delete entire line"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
+# Colors
+export LS_COLORS="ow=01;33"
+
 # Platform checks
 platform=$(uname)
 if [ "$platform" == "Linux" ]; then

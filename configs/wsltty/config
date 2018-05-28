@@ -1,5 +1,7 @@
 # To use common configuration in %APPDATA%\mintty, simply remove this file
 Font=DejaVu Sans Mono for Powerline
+FontWeight=400
+BoldAsFont=yes
 FontHeight=10
 CursorType=block
 ThemeFile=C:\Users\MW-BK-PC\AppData\Roaming\wsltty\themes\dracula.minttyrc
