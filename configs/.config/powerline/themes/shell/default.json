@@ -16,14 +16,6 @@
 				"function": "powerline.segments.common.env.virtualenv",
 				"priority": 30
 			},
-      {
-        "function": "powerline.segments.common.vcs.branch",
-        "priority": 20
-      },
-			{
-				"function": "powerline.segments.common.vcs.stash",
-				"priority": 50
-			},
 			{
 				"function": "powerline.segments.shell.cwd",
 				"priority": 10,
@@ -33,6 +25,14 @@
           "use_shortened_path": true,
           "ellipsis": "⊆"
         }
+			},
+      {
+        "function": "powerline.segments.common.vcs.branch",
+        "priority": 20
+      },
+			{
+				"function": "powerline.segments.common.vcs.stash",
+				"priority": 50
 			},
 			{
 				"function": "powerline.segments.shell.jobnum",
