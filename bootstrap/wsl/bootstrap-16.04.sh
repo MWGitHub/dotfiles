@@ -64,7 +64,7 @@ function install_docker_wsl() {
 }
 
 function link_configs() {
-	mkdir -p "$HOME/tools" "$HOME/scripts" "$HOME/projects"
+	mkdir -p "$HOME/tools" "$HOME/scripts" "$HOME/projects" "$HOME/builds"
 
 	projects="$HOME/projects"
 	cd "$projects"
@@ -199,6 +199,18 @@ function install_tools() {
 
 	# Install aws
 	pip install awscli --upgrade --user
+
+  # Build and make tmux
+  tmux_version=$(tmux -V | grep 2.7)
+  if [ -z "$tmux_version" ]; then
+    sudo apt remove tmux -y
+    cd "$HOME/builds"
+    git clone https://github.com/tmux/tmux.git
+    cd tmux && git checkout 2.7
+    sh autogen.sh
+    ./configure && make
+    sudo make install
+  fi
 }
 
 
