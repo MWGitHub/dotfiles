@@ -28,6 +28,9 @@ map <leader>/ :nohlsearch<CR>
 map <leader>j :m .+1<CR>==
 map <leader>k :m .-2<CR>==
 
+" Paths
+set rtp+=$POWERLINE_BINDINGS_VIM
+
 " vim-plug
 call plug#begin('~/.vim/plugged')
 

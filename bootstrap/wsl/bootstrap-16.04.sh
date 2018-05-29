@@ -27,8 +27,13 @@ function install_common() {
 		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
 		 libncursesw5-dev xz-utils tk-dev libgit2-24 libgit2-dev \
 		 apt-transport-https ca-certificates \
-     python-dev python3-dev libutf8proc-dev libutf8proc1 \
+     libutf8proc-dev libutf8proc1 \
 		 software-properties-common -y
+  # Languages
+  sudo apt install python-dev python3-dev \
+     lua5.3 liblua5.3-0 liblua5.3-dev \
+     tcl tcl-dev \
+     ruby ruby-all-dev -y
   # tmux 2.7 requirements
   sudo apt install automake build-essential pkg-config libevent-dev \
     libncurses5-dev ncurses-dev -y
@@ -143,7 +148,6 @@ function install_language_managers() {
 		git checkout v0.33.11
 	fi
 
-
   # Rust
   has_rust=$(which rustc)
   if [ -z "$has_rust" ]; then
@@ -154,20 +158,6 @@ function install_language_managers() {
   fi
 }
 
-function install_plugins() {
-	# Install dependencies the configs use
-	wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
-	chmod +x "$HOME/scripts/diff-so-fancy"
-
-	# tmux plugin manager
-	if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	fi
-
-	# Install powerlines, make sure there's a support font
-	# https://github.com/powerline/fonts
-	pip install --user powerline-status
-}
 function set_wsl_configs() {
 	# WSL specific variables
 	appended_ssh=$(cat "$HOME/.bashrc.local" | grep START_SSH)
@@ -211,8 +201,40 @@ function install_tools() {
     ./configure --enable-utf8proc && make
     sudo make install
   fi
+
+  # Build and make vim
+  has_vim_7=$(vim --version | grep 7.4)
+  if [ -n "$has_vim_7" ]; then
+    sudo apt remove vim -y
+    cd "$HOME/builds"
+    git clone https://github.com/vim/vim.git
+    cd vim
+    ./configure --enable-luainterp=yes --with-lua-prefix=/usr/bin/lua5.3 \
+      --enable-perlinterp=yes --enable-pythoninterp=yes \ 
+      --with-python-command=python2 --enable-python3interp=yes \
+      --with-python3-command=python --enable-tclinterp=yes \
+      --enable-rubyinterp=yes --enable-cscope --enable-terminal \
+      --enable-multibyte --enable-gui=no --disable-sysmouse \
+      --with-compiledby=MW --with-tclsh=/usr/bin/tclsh --with-tlib=ncurses \
+      && make
+    sudo make install
+  fi
 }
 
+function install_plugins() {
+	# Install dependencies the configs use
+	wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
+	chmod +x "$HOME/scripts/diff-so-fancy"
+
+	# tmux plugin manager
+	if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	fi
+
+	# Install powerlines, make sure there's a support font
+	# https://github.com/powerline/fonts
+	pip install --user powerline-status
+}
 
 starting_dir=$PWD
 
@@ -221,9 +243,9 @@ install_remote
 install_docker_wsl
 link_configs
 install_language_managers
-install_plugins
 set_wsl_configs
 install_tools
+install_plugins
 
 cd "$starting_dir"
 
