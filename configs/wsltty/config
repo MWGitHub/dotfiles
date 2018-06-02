@@ -1,5 +1,6 @@
 # To use common configuration in %APPDATA%\mintty, simply remove this file
-Font=DejaVu Sans Mono for Powerline
+# Font=DejaVu Sans Mono for Powerline
+Font=Go Mono for Powerline
 FontWeight=400
 BoldAsFont=yes
 FontHeight=12
