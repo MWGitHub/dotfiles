@@ -151,7 +151,7 @@ function install_language_managers() {
   # Rust
   has_rust=$(which rustc)
   if [ -z "$has_rust" ]; then
-    curl https://sh.rustup.rs -sSf | sh
+    curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
     ~/.cargo/bin/cargo install racer
   else
     rustup update
