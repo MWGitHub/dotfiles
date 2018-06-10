@@ -1,0 +1,2 @@
+// This may not be safe as restating the WSL service.
+kill -Name wslhost
