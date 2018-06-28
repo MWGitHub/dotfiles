@@ -1,3 +1,31 @@
+[color]
+    ui = true
+
+[core]
+    filemode = false
+    autocrlf = false
+    eol = lf
+    safecrlf = true
+    editor = /usr/local/bin/vim
+    pager = diff-so-fancy | less --tabs=2 -RFX # https://github.com/so-fancy/diff-so-fancy
+    excludesfile = ~/.gitignore_global
+
+[alias]
+    gds = diff --staged
+    co = checkout
+    s = status
+    lol = log --graph --decorate --oneline
+    prune = fetch --prune
+    undo = reset --soft HEAD^
+    stash-all = stash save --include-untracked
+
+[push]
+    default = simple
+
+[merge]
+    conflictstyle = diff3
+    tool = vimdiff
+
 [user]
   name = Michael Wang
   email = mwwpublic@gmail.com
