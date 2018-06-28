@@ -22,10 +22,10 @@
 [push]
 	default = simple
 
-[include]
-	path = ~/.gitconfig.common
-	path = ~/.gitconfig.local
-
 [merge]
 	conflictstyle = diff3
 	tool = vimdiff
+
+[include]
+	path = ~/.gitconfig.common
+	path = ~/.gitconfig.local
