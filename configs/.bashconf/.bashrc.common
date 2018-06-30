@@ -95,5 +95,8 @@ export POWERLINE_BINDINGS="$POWERLINE_PATH/bindings/"
 alias sc="cd ~/scripts"
 alias to="cd ~/tools"
 alias pj="cd ~/projects"
+alias wk="cd ~/wk"
+alias ebc="vim ~/.bashconf/.bashrc.common"
+alias ebl="vim ~/.bashconf/.bashrc.local"
 
 alias eb="exec bash"
