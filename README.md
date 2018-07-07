@@ -1,6 +1,9 @@
 # dotfiles
 My configuration and setup files.
 
+## GitLab  
+Note that this repository will now live on GitLab. It will still be kept in sync with the GitHub repository.
+
 ## Usage
 
 This repository can be used in multiple ways.
