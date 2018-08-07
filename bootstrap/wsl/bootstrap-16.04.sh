@@ -15,6 +15,8 @@ echo "Beginning bootstrap for WSL"
 # sudo apt install keychain
 # copy over or create a new ssh key pair
 # this assumes keychain uses id_rsa to access github
+# have public key be 644
+# have private key be 600
 
 # This is assuming keychains are set up
 function install_common() {
