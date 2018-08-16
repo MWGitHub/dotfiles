@@ -259,7 +259,7 @@ install_plugins
 cd "$starting_dir"
 
 echo "Bootstrapping completed"
-echo "Be sure to run :PlugInstall in vim
+echo "Be sure to run :PlugInstall in vim"
 echo "Be sure to hit ctrl+b-I to install tmux plugins"
 
 exec bash
