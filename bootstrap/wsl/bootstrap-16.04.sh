@@ -20,28 +20,29 @@ echo "Beginning bootstrap for WSL"
 
 # This is assuming keychains are set up
 function install_common() {
-	sudo apt update -y
-	sudo apt upgrade -y
+  sudo apt update -y
+  sudo apt upgrade -y
   # Required software for building other dependencies
-	sudo apt install openssh-server python3-pip cmake gcc \
-		 clang gdb build-essential unzip p7zip-full tar \
-		 libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
-		 libreadline-dev libsqlite3-dev llvm libncurses5-dev \
-		 libncursesw5-dev xz-utils tk-dev libgit2-24 libgit2-dev \
-		 apt-transport-https ca-certificates \
-     libutf8proc-dev libutf8proc1 \
-		 software-properties-common -y
+  sudo apt install \
+    openssh-server python3-pip cmake gcc \
+    clang gdb build-essential unzip p7zip-full tar \
+    libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev llvm libncurses5-dev \
+    libncursesw5-dev xz-utils tk-dev libgit2-24 libgit2-dev \
+    apt-transport-https ca-certificates \
+    libutf8proc-dev libutf8proc1 \
+    software-properties-common -y
   # Languages
   sudo apt install python-dev python3-dev \
-     lua5.3 liblua5.3-0 liblua5.3-dev \
-     tcl tcl-dev \
-     ruby ruby-all-dev -y
+    lua5.3 liblua5.3-0 liblua5.3-dev \
+    tcl tcl-dev \
+    ruby ruby-all-dev -y
   # tmux 2.7 requirements
   sudo apt install automake build-essential pkg-config libevent-dev \
     libncurses5-dev ncurses-dev -y
   # Standard and nice software to have
   sudo apt install htop jq tree curl wget -y
-	sudo apt auto-remove -y
+  sudo apt auto-remove -y
 }
 
 # This sets up an ssh server and allows for external tools to connect
@@ -49,70 +50,76 @@ function install_common() {
 # If on an older version of Ubuntu, set UsePrivilegeSeparate to no
 # Switch port to 2222
 function install_remote() {
-	sudo apt remove -y --purge openssh-server
-	sudo apt install -y openssh-server
-	# sudo systemctl enable ssh # at the moment WSL does not run systemd
-	sudo apt auto-remove -y
+  sudo apt remove -y --purge openssh-server
+  sudo apt install -y openssh-server
+  # sudo systemctl enable ssh # at the moment WSL does not run systemd
+  sudo apt auto-remove -y
 }
 
 function install_docker_wsl() {
-	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	sudo apt-key fingerprint 0EBFCD88
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo apt-key fingerprint 0EBFCD88
 
-	sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-	sudo apt update
-	sudo apt install -y docker-ce
-	sudo usermod -aG docker $USER
+  sudo apt update
+  sudo apt install -y docker-ce
+  sudo usermod -aG docker $USER
 
-	# Install Docker Compose.
-	sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
-	sudo chmod +x /usr/local/bin/docker-compose
+  # Install Docker Compose.
+  sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
+    sudo chmod +x /usr/local/bin/docker-compose
 }
 
 function link_configs() {
-	mkdir -p "$HOME/tools" "$HOME/scripts" "$HOME/projects" "$HOME/builds"
+  repo=multibootstrap
+  mkdir -p "$HOME/tools" "$HOME/scripts" "$HOME/projects" "$HOME/builds"
 
-	projects="$HOME/projects"
-	cd "$projects"
-	if [ -d dotfiles ]; then
-		cd dotfiles
-		git pull
-	else
+  projects="$HOME/projects"
+  cd "$projects"
+  if [ -d $repo ]; then
+    cd $repo
+    git pull
+  else
     # Use https first before git in case ssh is not set up yet
-		git clone https://github.com/MWGitHub/dotfiles.git 
-
+    git clone https://gitlab.com/mwguy/$repo.git
     # Reset dotfiles origins
-    cd "$HOME/projects/dotfiles"
-    git remote set-url origin git@github.com:MWGitHub/dotfiles.git
-	fi
+    cd "$HOME/projects/$repo"
+    git remote set-url origin git@gitlab.com:mwguy/$repo.git
+  fi
 
-	# Link config files
-	configs="$HOME/projects/dotfiles/configs"
+  # Link config files
+  configs="$HOME/projects/$repo/configs"
   ln -sf "$configs/.bashrc" "$HOME/.bashrc"
   if [ ! -h "$HOME/.bashconf" ]; then
     ln -sf "$configs/.bashconf" "$HOME/.bashconf"
   fi
+  if [ ! -z "$HOME/.bashconf/.bashrc.local" ]; then
+    touch "$HOME/.bashconf/.bashrc.local"
+  fi
 
-	ln -srf $(ls "$configs"/.git*) ~
+  ln -srf $(ls "$configs"/.git*) ~
 
-	ln -srf $(ls "$configs"/.tmux*) ~
+  ln -srf $(ls "$configs"/.tmux*) ~
 
   if [ ! -h "$HOME/.vim" ]; then
-  	ln -sf "$configs/.vim" "$HOME/.vim"
+    ln -sf "$configs/.vim" "$HOME/.vim"
   fi
-	ln -srf $(ls "$configs"/.vimrc*) ~
+  if [ ! -z "$HOME/.vim/.vimrc.local" ]; then
+    touch "$HOME/.vim/.vimrc.local"
+  fi
+  ln -srf $(ls "$configs"/.vimrc*) ~
 
   if [ ! -h "$HOME/.config" ]; then
-  	ln -sf "$configs/.config" "$HOME/.config"
+    ln -sf "$configs/.config" "$HOME/.config"
   fi
 
   source "$HOME/.bashrc"
 }
 
 function install_language_managers() {
-	# Install python
-	curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+  # Install python
+  curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 
   sudo apt install socat -y
 
@@ -143,12 +150,12 @@ function install_language_managers() {
   pip install --user pygit2==0.24.2
   pip install --user pyuv
 
-	# Install node
-	if [ ! -d "$HOME/.nvm" ]; then
-		git clone https://github.com/creationix/nvm.git "$HOME/.nvm"
-		cd "$HOME/.nvm"
-		git checkout v0.33.11
-	fi
+  # Install node
+  if [ ! -d "$HOME/.nvm" ]; then
+    git clone https://github.com/creationix/nvm.git "$HOME/.nvm"
+    cd "$HOME/.nvm"
+    git checkout v0.33.11
+  fi
 
   # Rust
   has_rust=$(which rustc)
@@ -161,36 +168,36 @@ function install_language_managers() {
 }
 
 function set_wsl_configs() {
-	# WSL specific variables
-	appended_ssh=$(cat "$HOME/.bashrc.local" | grep START_SSH)
-	if [ -z "$appended_ssh" ]; then
-		echo export START_SSH="true" >> "$HOME/.bashrc.local"
-	fi
+  # WSL specific variables
+  appended_ssh=$(cat "$HOME/.bashconf/.bashrc.local" | grep START_SSH)
+  if [ -z "$appended_ssh" ]; then
+    echo export START_SSH="true" >> "$HOME/.bashconf/.bashrc.local"
+  fi
 }
 
 function install_tools() {
-	cd "$HOME/tools"
+  cd "$HOME/tools"
 
-	# Install terraform
-	if [ ! -f "$HOME/tools/terraform" ]; then
-		wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
-		unzip terraform*.zip
-		rm terraform*.zip
-	fi
+  # Install terraform
+  if [ ! -f "$HOME/tools/terraform" ]; then
+    wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
+    unzip terraform*.zip
+    rm terraform*.zip
+  fi
 
-	# Install vault
-	if [ ! -f "$HOME/tools/vault" ]; then
-		wget https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip
-		unzip vault*.zip
-		rm vault*.zip
-	fi
+  # Install vault
+  if [ ! -f "$HOME/tools/vault" ]; then
+    wget https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip
+    unzip vault*.zip
+    rm vault*.zip
+  fi
 
-	sudo apt-add-repository ppa:ansible/ansible -y
-	sudo apt-get update -y
-	sudo apt-get install ansible
+  sudo apt-add-repository ppa:ansible/ansible -y
+  sudo apt-get update -y
+  sudo apt-get install ansible
 
-	# Install aws
-	pip install awscli --upgrade --user
+  # Install aws
+  pip install awscli --upgrade --user
 
   # Build and make tmux
   tmux_version=$(tmux -V | grep 2.7)
@@ -219,23 +226,23 @@ function install_tools() {
       --enable-multibyte --enable-gui=no --disable-sysmouse \
       --with-compiledby=MW --with-tclsh=/usr/bin/tclsh --with-tlib=ncurses \
       && make
-    sudo make install
+      sudo make install
   fi
 }
 
 function install_plugins() {
-	# Install dependencies the configs use
-	wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
-	chmod +x "$HOME/scripts/diff-so-fancy"
+  # Install dependencies the configs use
+  wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
+  chmod +x "$HOME/scripts/diff-so-fancy"
 
-	# tmux plugin manager
-	if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	fi
+  # tmux plugin manager
+  if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  fi
 
-	# Install powerlines, make sure there's a support font
-	# https://github.com/powerline/fonts
-	pip install --user powerline-status
+  # Install powerlines, make sure there's a support font
+  # https://github.com/powerline/fonts
+  pip install --user powerline-status
 }
 
 starting_dir=$PWD

@@ -6,6 +6,7 @@
     autocrlf = false
     eol = lf
     safecrlf = true
+    whitespace = "tab-in-indent"
     editor = /usr/local/bin/vim
     pager = diff-so-fancy | less --tabs=2 -RFX # https://github.com/so-fancy/diff-so-fancy
     excludesfile = ~/.gitignore_global
