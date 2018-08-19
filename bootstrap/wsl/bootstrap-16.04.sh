@@ -120,6 +120,9 @@ function link_configs() {
     mkdir -p "$HOME/.local/bin"
   fi
 
+  # Misc one off files
+  ln -sf "$configs/.inputrc" "$HOME/.inputrc"
+
   source "$HOME/.bashrc"
 }
 

@@ -19,6 +19,8 @@ set autoindent
 set smartindent
 set incsearch
 set hlsearch
+set visualbell
+set t_vb=
 let @/ = ""
 
 " Mapping and shortcuts
