@@ -9,3 +9,5 @@ vagrant/tools
 *.local
 htop/
 */.vim/plugged/
+update-notifier-npm.json
+**/.vim/.netrwhist
