@@ -115,6 +115,7 @@ function link_configs() {
     ln -sf "$configs/.config" "$HOME/.config"
   fi
 
+  # Local bin to prevent the need to sudo
   if [ ! -d "$HOME/.local/bin" ]; then
     mkdir -p "$HOME/.local/bin"
   fi
