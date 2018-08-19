@@ -231,6 +231,17 @@ function install_tools() {
   fi
 }
 
+install_scripts() {
+  cd "$HOME/projects"
+
+  if [ ! -d "$HOME/projects/scripts" ]; then
+    git clone https://gitlab.com/mwguy/scripts.git
+  fi
+  
+  cd scripts
+  git pull origin master
+}
+
 function install_plugins() {
   # Install dependencies the configs use
   wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
@@ -255,6 +266,7 @@ link_configs
 install_language_managers
 set_wsl_configs
 install_tools
+install_scripts
 install_plugins
 
 cd "$starting_dir"
