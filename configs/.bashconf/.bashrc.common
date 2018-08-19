@@ -38,7 +38,7 @@ fi
 # Common tools and scripts paths
 export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
 # Common project scripts paths
-export PATH="$HOME/projects/scripts:$PATH"
+export PATH="$HOME/projects/scripts/bin:$PATH"
 
 # Python
 export PATH="$HOME/.pyenv/bin:$PATH"
