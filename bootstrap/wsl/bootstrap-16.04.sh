@@ -43,6 +43,7 @@ function install_common() {
   # Standard and nice software to have
   sudo apt install htop jq tree curl wget -y
   sudo apt auto-remove -y
+  sudo apt install shellcheck -y
 }
 
 # This sets up an ssh server and allows for external tools to connect
