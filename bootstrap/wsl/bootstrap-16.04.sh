@@ -65,10 +65,10 @@ function install_docker_wsl() {
 
   sudo apt update
   sudo apt install -y docker-ce
-  sudo usermod -aG docker $USER
+  sudo usermod -aG docker "$USER"
 
   # Install Docker Compose.
-  sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
+  sudo curl -L https://github.com/docker/compose/releases/download/"${DOCKER_COMPOSE_VERSION}"/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
     sudo chmod +x /usr/local/bin/docker-compose
 }
 
