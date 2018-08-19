@@ -37,6 +37,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'racer-rust/vim-racer'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --rust-completer' }
+Plug 'https://github.com/w0rp/ale.git'
 
 call plug#end()
 
