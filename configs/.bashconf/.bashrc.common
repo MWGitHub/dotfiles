@@ -37,8 +37,10 @@ fi
 
 # Common tools and scripts paths
 export PATH="$HOME/tools:$HOME/scripts:$HOME/.local/bin:$PATH"
-# Common project scripts paths
+# Common project scripts paths that do not require installation
 export PATH="$HOME/projects/scripts/bin:$PATH"
+# Man pages
+export MANPATH="$HOME/.local/share/man:$MANPATH"
 
 # Python
 export PATH="$HOME/.pyenv/bin:$PATH"

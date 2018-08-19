@@ -115,6 +115,10 @@ function link_configs() {
     ln -sf "$configs/.config" "$HOME/.config"
   fi
 
+  if [ ! -d "$HOME/.local/bin" ]; then
+    mkdir -p "$HOME/.local/bin"
+  fi
+
   source "$HOME/.bashrc"
 }
 
@@ -229,6 +233,12 @@ function install_tools() {
       && make
       sudo make install
   fi
+
+  # Install Bats
+  cd "$HOME/builds"
+  git clone https://github.com/sstephenson/bats.git
+  cd bats
+  ./install.sh "$HOME/.local"
 }
 
 install_scripts() {
