@@ -240,8 +240,8 @@ function install_tools() {
 
   # Install Bats
   cd "$HOME/builds"
-  git clone https://github.com/sstephenson/bats.git
-  cd bats
+  git clone https://github.com/bats-core/bats-core.git
+  cd bats-core
   ./install.sh "$HOME/.local"
 }
 
