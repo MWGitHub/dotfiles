@@ -41,7 +41,7 @@ function install_common() {
   sudo apt install automake build-essential pkg-config libevent-dev \
     libncurses5-dev ncurses-dev -y
   # Standard and nice software to have
-  sudo apt install htop jq tree curl wget -y
+  sudo apt install htop jq tree curl wget oathtool -y
   sudo apt auto-remove -y
   sudo apt install shellcheck -y
 }
