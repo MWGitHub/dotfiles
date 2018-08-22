@@ -93,7 +93,7 @@ export POWERLINE_PATH=$(find $HOME/.local/lib/*3.6/site-packages/powerline -maxd
 export POWERLINE_BINDINGS="$POWERLINE_PATH/bindings/"
 
 # Completions
-# ~/.bashconf/.bash_completions
+source "$HOME/.bashconf/bash_completions/tmux"
 
 # Aliases
 alias sc="cd ~/scripts"
@@ -104,3 +104,4 @@ alias ebc="vim ~/.bashconf/.bashrc.common"
 alias ebl="vim ~/.bashconf/.bashrc.local"
 
 alias eb="exec bash"
+
