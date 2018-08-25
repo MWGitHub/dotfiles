@@ -208,6 +208,12 @@ function install_tools() {
   # Install aws
   pip install awscli --upgrade --user
 
+  # Install Google Cloud SDK
+  cloud_sdk_repo="cloud-sdk-$(lsb_release -c -s)"
+  echo "deb http://packages.cloud.google.com/apt $cloud_sdk_repo main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  sudo apt-get update -y && sudo apt-get install google-cloud-sdk -y
+
   # Build and make tmux
   tmux_version=$(tmux -V | grep 2.7)
   if [ -z "$tmux_version" ]; then

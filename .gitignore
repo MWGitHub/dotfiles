@@ -11,3 +11,5 @@ htop/
 */.vim/plugged/
 update-notifier-npm.json
 **/.vim/.netrwhist
+**/.config/configstore
+**/.config/gcloud
