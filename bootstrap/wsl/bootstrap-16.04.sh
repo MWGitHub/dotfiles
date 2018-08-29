@@ -35,7 +35,7 @@ function install_common() {
   # Languages
   sudo apt install python-dev python3-dev \
     lua5.3 liblua5.3-0 liblua5.3-dev \
-    tcl tcl-dev \
+    tcl tcl-dev default-jdk \
     ruby ruby-all-dev -y
   # tmux 2.7 requirements
   sudo apt install automake build-essential pkg-config libevent-dev \
