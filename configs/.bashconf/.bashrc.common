@@ -66,6 +66,10 @@ if [ -d "$HOME/.rbenv" ]; then
     source "$HOME/.rbenv/completions/rbenv.bash"
 fi
 
+# Go
+export PATH="$HOME/.go/code:$PATH"
+export GOPATH="$HOME/.go/code"
+
 # Start ssh server
 if [ "$platform" != 'Darwin' ]; then
     if [ "$START_SSH" == "true" ]; then

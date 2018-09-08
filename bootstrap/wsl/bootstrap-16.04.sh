@@ -175,6 +175,11 @@ function install_language_managers() {
   else
     rustup update
   fi
+
+  # Go
+  if [ ! -d "$GOPATH/.go/code" ]; then
+    mkdir -p "$HOME/.go/code"
+  fi
 }
 
 function set_wsl_configs() {
