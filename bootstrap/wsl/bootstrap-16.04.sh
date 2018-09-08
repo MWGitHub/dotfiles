@@ -33,10 +33,11 @@ function install_common() {
     libutf8proc-dev libutf8proc1 \
     software-properties-common -y
   # Languages
-  sudo apt install python-dev python3-dev \
+  sudo apt install -y python-dev python3-dev \
     lua5.3 liblua5.3-0 liblua5.3-dev \
     tcl tcl-dev default-jdk \
-    ruby ruby-all-dev -y
+    ruby ruby-all-dev \
+    golang-go
   # tmux 2.7 requirements
   sudo apt install automake build-essential pkg-config libevent-dev \
     libncurses5-dev ncurses-dev -y
