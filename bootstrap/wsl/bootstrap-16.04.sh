@@ -36,8 +36,7 @@ function install_common() {
   sudo apt install -y python-dev python3-dev \
     lua5.3 liblua5.3-0 liblua5.3-dev \
     tcl tcl-dev default-jdk \
-    ruby ruby-all-dev \
-    golang-go
+    ruby ruby-all-dev
   # tmux 2.7 requirements
   sudo apt install automake build-essential pkg-config libevent-dev \
     libncurses5-dev ncurses-dev -y
@@ -177,6 +176,10 @@ function install_language_managers() {
   fi
 
   # Go
+  mkdir "$HOME/builds/temp"
+  cd "$HOME/builds/temp"
+  wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+  sudo tar -C /usr/local -xzf go1.11.linux-amd64.tar.gz
   if [ ! -d "$GOPATH/.go/code" ]; then
     mkdir -p "$HOME/.go/code"
   fi
