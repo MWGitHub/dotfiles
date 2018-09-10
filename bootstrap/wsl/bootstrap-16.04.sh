@@ -18,8 +18,20 @@ echo "Beginning bootstrap for WSL"
 # have public key be 644
 # have private key be 600
 
+bootstrap_dir="$HOME/.bootstrap"
+
+function is_in_sources () {
+  local in_sources=
+  in_sources=$(cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list | grep "$1")
+  if [ -n "$in_sources" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 # This is assuming keychains are set up
-function install_common() {
+function install_common () {
   sudo apt update -y
   sudo apt upgrade -y
   # Required software for building other dependencies
@@ -50,7 +62,7 @@ function install_common() {
 # Make sure to allow password authentication if connecting with CLion in /etc/ssh/sshd_config
 # If on an older version of Ubuntu, set UsePrivilegeSeparate to no
 # Switch port to 2222
-function install_remote() {
+function install_remote () {
   sudo apt remove -y --purge openssh-server
   sudo apt install -y openssh-server
   # sudo systemctl enable ssh # at the moment WSL does not run systemd
@@ -58,18 +70,25 @@ function install_remote() {
 }
 
 function install_docker_wsl() {
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  sudo apt-key fingerprint 0EBFCD88
+  is_in_sources "docker"
+  if [ $? -eq 1 ]; then
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo apt-key fingerprint 0EBFCD88
 
-  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  fi
 
   sudo apt update
   sudo apt install -y docker-ce
   sudo usermod -aG docker "$USER"
 
   # Install Docker Compose.
-  sudo curl -L https://github.com/docker/compose/releases/download/"${DOCKER_COMPOSE_VERSION}"/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
+  local has_compose=
+  has_compose=$(which docker-compose)
+  if [ -z "$has_compose" ]; then
+    sudo curl -L https://github.com/docker/compose/releases/download/"${DOCKER_COMPOSE_VERSION}"/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
     sudo chmod +x /usr/local/bin/docker-compose
+  fi
 }
 
 function link_configs() {
@@ -128,7 +147,11 @@ function link_configs() {
 
 function install_language_managers() {
   # Install python
-  curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+  local has_pyenv=
+  has_pyenv=$(which pyenv)
+  if [ -z "$has_pyenv" ]; then
+    curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+  fi
 
   sudo apt install socat -y
 
@@ -176,12 +199,14 @@ function install_language_managers() {
   fi
 
   # Go
-  mkdir "$HOME/builds/temp"
-  cd "$HOME/builds/temp"
-  wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
-  sudo tar -C /usr/local -xzf go1.11.linux-amd64.tar.gz
-  if [ ! -d "$GOPATH/.go/code" ]; then
-    mkdir -p "$HOME/.go/code"
+  has_golang=$(which go)
+  if [ -z "$has_golang" ]; then
+    cd "$bootstrap_dir/temp"
+    wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf go1.11.linux-amd64.tar.gz
+    if [ ! -d "$GOPATH/.go/code" ]; then
+      mkdir -p "$HOME/.go/code"
+    fi
   fi
 }
 
@@ -205,12 +230,15 @@ function install_tools() {
 
   # Install vault
   if [ ! -f "$HOME/tools/vault" ]; then
-    wget https://releases.hashicorp.com/vault/0.10.1/vault_0.10.1_linux_amd64.zip
+    wget https://releases.hashicorp.com/vault/0.11.1/vault_0.11.1_linux_amd64.zip
     unzip vault*.zip
     rm vault*.zip
   fi
 
-  sudo apt-add-repository ppa:ansible/ansible -y
+  is_in_sources "ansible"
+  if [ $? -eq 1 ]; then
+    sudo apt-add-repository ppa:ansible/ansible -y
+  fi
   sudo apt-get update -y
   sudo apt-get install ansible
 
@@ -218,9 +246,12 @@ function install_tools() {
   pip install awscli --upgrade --user
 
   # Install Google Cloud SDK
-  cloud_sdk_repo="cloud-sdk-$(lsb_release -c -s)"
-  echo "deb http://packages.cloud.google.com/apt $cloud_sdk_repo main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  is_in_sources "cloud.google.com"
+  if [ $? -eq 1 ]; then
+    cloud_sdk_repo="cloud-sdk-$(lsb_release -c -s)"
+    echo "deb http://packages.cloud.google.com/apt $cloud_sdk_repo main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  fi
   sudo apt-get update -y && sudo apt-get install google-cloud-sdk -y
 
   # Build and make tmux
@@ -254,16 +285,23 @@ function install_tools() {
   fi
 
   # Install Bats
-  cd "$HOME/builds"
-  git clone https://github.com/bats-core/bats-core.git
-  cd bats-core
-  ./install.sh "$HOME/.local"
+  local has_bats=
+  has_bats=$(which bats)
+  if [ -z "$has_bats" ]; then
+    cd "$HOME/builds"
+    git clone https://github.com/bats-core/bats-core.git
+    cd bats-core
+    ./install.sh "$HOME/.local"
+  fi
 
   # Install Kubernetes
   sudo apt-get update
   sudo apt-get install -y apt-transport-https curl
-  sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-  echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  is_in_sources "kubernetes"
+  if [ $? -eq 1 ]; then
+    sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  fi
   sudo apt-get update
   sudo apt-get install -y kubelet kubeadm kubectl
   sudo apt-mark hold kubelet kubeadm kubectl
@@ -297,6 +335,8 @@ function install_plugins() {
 
 starting_dir=$PWD
 
+mkdir -p "$bootstrap_dir/temp"
+
 install_common
 install_remote
 install_docker_wsl
@@ -306,6 +346,8 @@ set_wsl_configs
 install_tools
 install_scripts
 install_plugins
+
+rm -rf "$bootstrap_dir"
 
 cd "$starting_dir"
 
