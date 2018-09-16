@@ -6,7 +6,7 @@ vagrant/tools
 .DS_Store
 **/*.swp
 .idea/
-*.local
+*.local*
 htop/
 */.vim/plugged/
 update-notifier-npm.json

@@ -104,6 +104,7 @@ alias sc="cd ~/scripts"
 alias to="cd ~/tools"
 alias pj="cd ~/projects"
 alias wk="cd ~/work"
+alias ebp="vim ~/.bashconf/.bashrc.local.precommon"
 alias ebc="vim ~/.bashconf/.bashrc.common"
 alias ebl="vim ~/.bashconf/.bashrc.local"
 

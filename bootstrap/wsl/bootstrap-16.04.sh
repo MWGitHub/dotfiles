@@ -16,7 +16,10 @@
 # have public key be 644
 # have private key be 600
 
-BOOTSTRAP_DIR="$HOME/.bootstrap"
+BOOTSTRAP_DIR="$(mktemp -d "${HOME}"/.bootstrap.XXXXXX)"
+trap 'rm -rf "${BOOTSTRAP_DIR}"' EXIT
+LOCAL_DIR="$HOME/.local"
+LOCAL_BINARY_DIR="$HOME/.local/bin"
 
 ########################################
 # Check if an archive is already in sources
@@ -102,7 +105,7 @@ install_docker_wsl() {
 
   # Install Docker Compose.
   local has_compose=
-  has_compose=$(which docker-compose)
+  has_compose=$(command -v docker-compose)
   if [ -z "$has_compose" ]; then
     sudo curl -L https://github.com/docker/compose/releases/download/"${DOCKER_COMPOSE_VERSION}"/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
     sudo chmod +x /usr/local/bin/docker-compose
@@ -131,7 +134,10 @@ link_configs() {
   if [ ! -h "$HOME/.bashconf" ]; then
     ln -sf "$configs/.bashconf" "$HOME/.bashconf"
   fi
-  if [ ! -z "$HOME/.bashconf/.bashrc.local" ]; then
+  if [ ! -e "$HOME/.bashconf/.bashrc.local.precommon" ]; then
+    touch "$HOME/.bashconf/.bashrc.local.precommon"
+  fi
+  if [ ! -e "$HOME/.bashconf/.bashrc.local" ]; then
     touch "$HOME/.bashconf/.bashrc.local"
   fi
 
@@ -142,18 +148,13 @@ link_configs() {
   if [ ! -h "$HOME/.vim" ]; then
     ln -sf "$configs/.vim" "$HOME/.vim"
   fi
-  if [ ! -z "$HOME/.vim/.vimrc.local" ]; then
+  if [ ! -e "$HOME/.vim/.vimrc.local" ]; then
     touch "$HOME/.vim/.vimrc.local"
   fi
   ln -srf $(ls "$configs"/.vimrc*) ~
 
   if [ ! -h "$HOME/.config" ]; then
     ln -sf "$configs/.config" "$HOME/.config"
-  fi
-
-  # Local bin to prevent the need to sudo
-  if [ ! -d "$HOME/.local/bin" ]; then
-    mkdir -p "$HOME/.local/bin"
   fi
 
   # Misc one off files
@@ -165,7 +166,7 @@ link_configs() {
 install_languages() {
   # Install pyenv
   local has_pyenv=
-  has_pyenv=$(which pyenv)
+  has_pyenv=$(command -v pyenv)
   if [ -z "$has_pyenv" ]; then
     curl -Lq https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
   fi
@@ -207,7 +208,7 @@ install_languages() {
   fi
 
   # Rust
-  has_rust=$(which rustc)
+  has_rust=$(command -v rustc)
   if [ -z "$has_rust" ]; then
     curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path
     ~/.cargo/bin/cargo install racer
@@ -216,9 +217,10 @@ install_languages() {
   fi
 
   # Go
-  has_golang=$(which go)
+  has_golang=$(command -v go)
   if [ -z "$has_golang" ]; then
-    cd "$BOOTSTRAP_DIR/temp"
+    local go_temp="$(mktemp -d "${BOOTSTRAP_DIR}/go.XXX")"
+    cd "$go_temp"
     wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
     sudo tar -C /usr/local -xzf go1.11.linux-amd64.tar.gz
     if [ ! -d "$GOPATH/.go/code" ]; then
@@ -228,10 +230,17 @@ install_languages() {
 }
 
 set_wsl_configs() {
+  local is_windows=
+  is_windows="$(uname -a | grep Microsoft)"
+  if [ -z "${is_windows}" ]; then
+    return 0
+  fi
+
   # WSL specific variables
-  appended_ssh=$(cat "$HOME/.bashconf/.bashrc.local" | grep START_SSH)
-  if [ -z "$appended_ssh" ]; then
-    echo export START_SSH="true" >> "$HOME/.bashconf/.bashrc.local"
+  local appended_ssh=
+  appended_ssh="$(grep START_SSH "${HOME}/.bashconf/.bashrc.local.precommon")"
+  if [ -z "${appended_ssh}" ]; then
+    echo export START_SSH="true" >> "$HOME/.bashconf/.bashrc.local.precommon"
   fi
 }
 
@@ -304,7 +313,7 @@ install_tools() {
 
   # Install Bats
   local has_bats=
-  has_bats=$(which bats)
+  has_bats=$(command -v bats)
   if [ -z "$has_bats" ]; then
     cd "$HOME/builds"
     git clone https://github.com/bats-core/bats-core.git
@@ -356,8 +365,6 @@ main() {
 
   starting_dir=$PWD
 
-  mkdir -p "$BOOTSTRAP_DIR/temp"
-
   create_directory_structure
   install_common
   install_remote
@@ -368,8 +375,6 @@ main() {
   install_tools
   install_scripts
   install_plugins
-
-  rm -rf "$BOOTSTRAP_DIR"
 
   cd "$starting_dir"
 
