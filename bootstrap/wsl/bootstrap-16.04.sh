@@ -385,6 +385,14 @@ install_tools() {
   sudo apt-get update
   sudo apt-get install -y kubelet kubeadm kubectl
   sudo apt-mark hold kubelet kubeadm kubectl
+
+  # Install geth
+  is_in_sources "ethereum"
+  if [ $? -eq 1 ]; then
+    sudo add-apt-repository -y ppa:ethereum/ethereum
+    sudo apt-get update
+  fi
+  sudo apt-get install -y ethereum
 }
 
 install_scripts() {
