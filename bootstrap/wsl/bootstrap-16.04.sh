@@ -17,9 +17,7 @@
 # have private key be 600
 
 BOOTSTRAP_DIR="$(mktemp -d "${HOME}"/.bootstrap.XXXXXX)"
-trap 'rm -rf "${BOOTSTRAP_DIR}"' EXIT
 LOCAL_DIR="$HOME/.local"
-LOCAL_BINARY_DIR="$HOME/.local/bin"
 
 ########################################
 # Check if an archive is already in sources
@@ -39,6 +37,47 @@ is_in_sources() {
   else
     return 1
   fi
+}
+
+########################################
+# Check if a binary or script is already installed
+# Globals:
+#   None
+# Arguments:
+#   command
+#   [required_version]
+#   [version_retrieval]
+# Returns:
+#   0 if it exists
+#   1 if it does not exist
+########################################
+is_already_installed() {
+  check_version() {
+    local command="$1"
+    local required_version="$2"
+    local version_retrieval=${3:-'--version'}
+    local version=
+    if [ -n "${required_version}" ]; then
+      version="$("${command}" "${version_retrieval}" | grep "${required_version}")"
+      if [ -z "${version}" ]; then
+        return 1
+      fi
+    fi
+
+    return 0
+  }
+
+  local path=
+  path="$(command -v "$1")"
+  check_version "$1" "$2" "$3"
+  version_matches="$?"
+  if [ -n "$path" ] && [ "$version_matches" -eq 0 ]; then
+    return 0
+  else
+    return 1
+  fi
+
+  return 0
 }
 
 # Create the structure for common directories
@@ -77,6 +116,20 @@ install_common() {
   sudo apt install htop jq tree curl wget oathtool -y
   sudo apt auto-remove -y
   sudo apt install shellcheck -y
+
+  # Install CMake
+  local cmake_version="3.12.2"
+  is_already_installed "cmake" "${cmake_version}"
+  if [ "$?" -eq 1 ]; then
+    local cmake_source=
+    cmake_source="$(mktemp -d "${BOOTSTRAP_DIR}"/cmake.XXX)"
+    cd "${cmake_source}"
+    wget "https://cmake.org/files/v${cmake_version%.*}/cmake-${cmake_version}.tar.gz"
+    tar xzf "cmake-${cmake_version}.tar.gz"
+    rm "cmake-${cmake_version}.tar.gz"
+    cd "cmake-${cmake_version}"
+    ./bootstrap "--prefix=${LOCAL_DIR}" && make && make install
+  fi
 }
 
 # This sets up an ssh server and allows for external tools to connect
@@ -360,7 +413,17 @@ install_plugins() {
   pip install --user powerline-status
 }
 
+cleanup() {
+  rm -rf "${BOOTSTRAP_DIR}"
+
+  unset BOOTSTRAP_DIR
+  unset LOCAL_DIR
+
+  trap '' EXIT
+}
+
 main() {
+  trap cleanup EXIT
   echo "Beginning bootstrap for WSL"
 
   starting_dir=$PWD
@@ -382,7 +445,7 @@ main() {
   echo "Be sure to run :PlugInstall in vim"
   echo "Be sure to hit ctrl+b-I to install tmux plugins"
 
-  exec bash
+  source "${HOME}/.bashrc"
 }
 
 main
