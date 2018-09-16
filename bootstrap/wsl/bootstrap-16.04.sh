@@ -18,7 +18,17 @@
 
 BOOTSTRAP_DIR="$HOME/.bootstrap"
 
-is_in_sources () {
+########################################
+# Check if an archive is already in sources
+# Globals:
+#   None
+# Arguments:
+#   grep_pattern
+# Returns:
+#   0 if it exists
+#   1 if it does not exist
+########################################
+is_in_sources() {
   local in_sources=
   in_sources=$(cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list | grep "$1")
   if [ -n "$in_sources" ]; then
@@ -29,7 +39,7 @@ is_in_sources () {
 }
 
 # Create the structure for common directories
-create_directory_structure () {
+create_directory_structure() {
   mkdir -p "$HOME/.local/bin" \
    "$HOME/tools" \
    "$HOME/scripts" \
@@ -38,7 +48,7 @@ create_directory_structure () {
 }
 
 # This is assuming keychains are set up
-install_common () {
+install_common() {
   sudo apt update -y
   sudo apt upgrade -y
   # Required software for building other dependencies
@@ -70,14 +80,14 @@ install_common () {
 # Make sure to allow password authentication if connecting with CLion in /etc/ssh/sshd_config
 # If on an older version of Ubuntu, set UsePrivilegeSeparate to no
 # Switch port to 2222
-install_remote () {
+install_remote() {
   sudo apt remove -y --purge openssh-server
   sudo apt install -y openssh-server
   # sudo systemctl enable ssh # at the moment WSL does not run systemd
   sudo apt auto-remove -y
 }
 
-install_docker_wsl () {
+install_docker_wsl() {
   is_in_sources "docker"
   if [ $? -eq 1 ]; then
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -99,7 +109,7 @@ install_docker_wsl () {
   fi
 }
 
-link_configs () {
+link_configs() {
   repo=multibootstrap
 
   projects="$HOME/projects"
@@ -152,7 +162,7 @@ link_configs () {
   source "$HOME/.bashrc"
 }
 
-install_languages () {
+install_languages() {
   # Install pyenv
   local has_pyenv=
   has_pyenv=$(which pyenv)
@@ -217,7 +227,7 @@ install_languages () {
   fi
 }
 
-set_wsl_configs () {
+set_wsl_configs() {
   # WSL specific variables
   appended_ssh=$(cat "$HOME/.bashconf/.bashrc.local" | grep START_SSH)
   if [ -z "$appended_ssh" ]; then
@@ -225,7 +235,7 @@ set_wsl_configs () {
   fi
 }
 
-install_tools () {
+install_tools() {
   cd "$HOME/tools"
 
   # Install terraform
@@ -315,7 +325,7 @@ install_tools () {
   sudo apt-mark hold kubelet kubeadm kubectl
 }
 
-install_scripts () {
+install_scripts() {
   cd "$HOME/projects"
 
   if [ ! -d "$HOME/projects/scripts" ]; then
@@ -326,7 +336,7 @@ install_scripts () {
   git pull origin master
 }
 
-install_plugins () {
+install_plugins() {
   # Install dependencies the configs use
   wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
   chmod +x "$HOME/scripts/diff-so-fancy"
@@ -341,7 +351,7 @@ install_plugins () {
   pip install --user powerline-status
 }
 
-main () {
+main() {
   echo "Beginning bootstrap for WSL"
 
   starting_dir=$PWD
