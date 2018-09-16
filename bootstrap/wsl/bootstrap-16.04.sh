@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-echo "Beginning bootstrap for WSL"
-
 # Create a user
 # adduser foo
 # usermod -aG sudo foo
@@ -18,9 +16,9 @@ echo "Beginning bootstrap for WSL"
 # have public key be 644
 # have private key be 600
 
-bootstrap_dir="$HOME/.bootstrap"
+BOOTSTRAP_DIR="$HOME/.bootstrap"
 
-function is_in_sources () {
+is_in_sources () {
   local in_sources=
   in_sources=$(cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list | grep "$1")
   if [ -n "$in_sources" ]; then
@@ -30,27 +28,37 @@ function is_in_sources () {
   fi
 }
 
+# Create the structure for common directories
+create_directory_structure () {
+  mkdir -p "$HOME/.local/bin" \
+   "$HOME/tools" \
+   "$HOME/scripts" \
+   "$HOME/projects" \
+   "$HOME/builds"
+}
+
 # This is assuming keychains are set up
-function install_common () {
+install_common () {
   sudo apt update -y
   sudo apt upgrade -y
   # Required software for building other dependencies
-  sudo apt install \
-    openssh-server python3-pip cmake gcc \
-    clang gdb build-essential unzip p7zip-full tar \
-    libpng-dev zlib1g-dev make libssl-dev libbz2-dev \
-    libreadline-dev libsqlite3-dev llvm libncurses5-dev \
-    libncursesw5-dev xz-utils tk-dev libgit2-24 libgit2-dev \
-    apt-transport-https ca-certificates \
+  # or retrieving sources
+  sudo apt install -y \
+    gcc clang gdb build-essential make automake llvm \
+    openssh-server ca-certificates \
+    software-properties-common apt-transport-https \
+    unzip p7zip-full tar \
+    libpng-dev zlib1g-dev libssl-dev libbz2-dev \
+    libreadline-dev libsqlite3-dev libncurses5-dev \
+    libncursesw5-dev xz-utils libgit2-24 libgit2-dev \
     libutf8proc-dev libutf8proc1 \
-    software-properties-common -y
   # Languages
-  sudo apt install -y python-dev python3-dev \
+  sudo apt install -y python3-pip python-dev python3-dev \
     lua5.3 liblua5.3-0 liblua5.3-dev \
-    tcl tcl-dev default-jdk \
+    tk-dev tcl tcl-dev default-jdk \
     ruby ruby-all-dev
   # tmux 2.7 requirements
-  sudo apt install automake build-essential pkg-config libevent-dev \
+  sudo apt install pkg-config libevent-dev \
     libncurses5-dev ncurses-dev -y
   # Standard and nice software to have
   sudo apt install htop jq tree curl wget oathtool -y
@@ -62,14 +70,14 @@ function install_common () {
 # Make sure to allow password authentication if connecting with CLion in /etc/ssh/sshd_config
 # If on an older version of Ubuntu, set UsePrivilegeSeparate to no
 # Switch port to 2222
-function install_remote () {
+install_remote () {
   sudo apt remove -y --purge openssh-server
   sudo apt install -y openssh-server
   # sudo systemctl enable ssh # at the moment WSL does not run systemd
   sudo apt auto-remove -y
 }
 
-function install_docker_wsl() {
+install_docker_wsl () {
   is_in_sources "docker"
   if [ $? -eq 1 ]; then
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -91,9 +99,8 @@ function install_docker_wsl() {
   fi
 }
 
-function link_configs() {
+link_configs () {
   repo=multibootstrap
-  mkdir -p "$HOME/tools" "$HOME/scripts" "$HOME/projects" "$HOME/builds"
 
   projects="$HOME/projects"
   cd "$projects"
@@ -145,8 +152,8 @@ function link_configs() {
   source "$HOME/.bashrc"
 }
 
-function install_language_managers() {
-  # Install python
+install_languages () {
+  # Install pyenv
   local has_pyenv=
   has_pyenv=$(which pyenv)
   if [ -z "$has_pyenv" ]; then
@@ -182,7 +189,7 @@ function install_language_managers() {
   pip install --user pygit2==0.24.2
   pip install --user pyuv
 
-  # Install node
+  # Install nvm
   if [ ! -d "$HOME/.nvm" ]; then
     git clone https://github.com/creationix/nvm.git "$HOME/.nvm"
     cd "$HOME/.nvm"
@@ -201,7 +208,7 @@ function install_language_managers() {
   # Go
   has_golang=$(which go)
   if [ -z "$has_golang" ]; then
-    cd "$bootstrap_dir/temp"
+    cd "$BOOTSTRAP_DIR/temp"
     wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
     sudo tar -C /usr/local -xzf go1.11.linux-amd64.tar.gz
     if [ ! -d "$GOPATH/.go/code" ]; then
@@ -210,7 +217,7 @@ function install_language_managers() {
   fi
 }
 
-function set_wsl_configs() {
+set_wsl_configs () {
   # WSL specific variables
   appended_ssh=$(cat "$HOME/.bashconf/.bashrc.local" | grep START_SSH)
   if [ -z "$appended_ssh" ]; then
@@ -218,7 +225,7 @@ function set_wsl_configs() {
   fi
 }
 
-function install_tools() {
+install_tools () {
   cd "$HOME/tools"
 
   # Install terraform
@@ -235,6 +242,7 @@ function install_tools() {
     rm vault*.zip
   fi
 
+  # Install ansible
   is_in_sources "ansible"
   if [ $? -eq 1 ]; then
     sudo apt-add-repository ppa:ansible/ansible -y
@@ -307,7 +315,7 @@ function install_tools() {
   sudo apt-mark hold kubelet kubeadm kubectl
 }
 
-install_scripts() {
+install_scripts () {
   cd "$HOME/projects"
 
   if [ ! -d "$HOME/projects/scripts" ]; then
@@ -318,7 +326,7 @@ install_scripts() {
   git pull origin master
 }
 
-function install_plugins() {
+install_plugins () {
   # Install dependencies the configs use
   wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy -O "$HOME"/scripts/diff-so-fancy -q
   chmod +x "$HOME/scripts/diff-so-fancy"
@@ -333,26 +341,33 @@ function install_plugins() {
   pip install --user powerline-status
 }
 
-starting_dir=$PWD
+main () {
+  echo "Beginning bootstrap for WSL"
 
-mkdir -p "$bootstrap_dir/temp"
+  starting_dir=$PWD
 
-install_common
-install_remote
-install_docker_wsl
-link_configs
-install_language_managers
-set_wsl_configs
-install_tools
-install_scripts
-install_plugins
+  mkdir -p "$BOOTSTRAP_DIR/temp"
 
-rm -rf "$bootstrap_dir"
+  create_directory_structure
+  install_common
+  install_remote
+  install_docker_wsl
+  link_configs
+  install_languages
+  set_wsl_configs
+  install_tools
+  install_scripts
+  install_plugins
 
-cd "$starting_dir"
+  rm -rf "$BOOTSTRAP_DIR"
 
-echo "Bootstrapping completed"
-echo "Be sure to run :PlugInstall in vim"
-echo "Be sure to hit ctrl+b-I to install tmux plugins"
+  cd "$starting_dir"
 
-exec bash
+  echo "Bootstrapping completed"
+  echo "Be sure to run :PlugInstall in vim"
+  echo "Be sure to hit ctrl+b-I to install tmux plugins"
+
+  exec bash
+}
+
+main
