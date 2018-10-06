@@ -300,6 +300,9 @@ set_wsl_configs() {
 install_tools() {
   cd "$HOME/tools"
 
+  # Install nginx
+  sudo apt-get install -y nginx
+
   # Install terraform
   if [ ! -f "$HOME/tools/terraform" ]; then
     wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
@@ -393,6 +396,22 @@ install_tools() {
     sudo apt-get update
   fi
   sudo apt-get install -y ethereum
+  sudo apt-get install -y solc
+
+#  # Install aleth
+#  is_already_installed "aleth"
+#  if [ $? -eq 1 ]; then
+#    local aleth_build=
+#    aleth_build="$(mktemp -d "${BOOTSTRAP_DIR}/aleth")"
+#    cd "${aleth_build}"
+#    git clone --recursive https://github.com/ethereum/aleth.git
+#    cd "aleth"
+#    sudo apt-get install libleveldb-dev -y
+#    mkdir build
+#    cd build
+#    cmake ..
+#    cmake --build . 
+#  fi
 }
 
 install_scripts() {
