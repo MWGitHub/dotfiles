@@ -11,14 +11,16 @@
     pager = diff-so-fancy | less --tabs=2 -RFX # https://github.com/so-fancy/diff-so-fancy
     excludesfile = ~/.gitignore_global
 
-[alias]
-    gds = diff --staged
-    co = checkout
-    s = status
-    lol = log --graph --decorate --oneline
-    prune = fetch --prune
-    undo = reset --soft HEAD^
-    stash-all = stash save --include-untracked
+[color]
+    ui = true
+
+[color "diff"]
+    meta = "yellow"
+    frag = "magenta bold"
+    commit = "yellow bold"
+    old = "red bold"
+    new = "green bold"
+    whitespace = "red reverse"
 
 [push]
     default = simple
@@ -36,3 +38,12 @@
 	smtpServer = smtp.gmail.com
 	smtpUser = mwwpublic@gmail.com
 	smtpServerPort = 587
+
+[alias]
+    gds = diff --staged
+    co = checkout
+    s = status
+    lol = log --graph --decorate --oneline
+    prune = fetch --prune
+    undo = reset --soft HEAD^
+    stash-all = stash save --include-untracked
