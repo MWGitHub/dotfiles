@@ -1,6 +1,3 @@
-[color]
-    ui = true
-
 [core]
     filemode = false
     autocrlf = false
@@ -9,7 +6,7 @@
     whitespace = "tab-in-indent"
     editor = /usr/local/bin/vim
     pager = diff-so-fancy | less --tabs=2 -RFX # https://github.com/so-fancy/diff-so-fancy
-    excludesfile = ~/.gitignore_global
+    excludesfile = ~/.config/git/.gitignore_global
 
 [color]
     ui = true
