@@ -175,10 +175,10 @@ link_configs() {
     git pull
   else
     # Use https first before git in case ssh is not set up yet
-    git clone https://gitlab.com/mwguy/$repo.git
+    git clone https://gitlab.com/autolife/development/$repo.git
     # Reset dotfiles origins
     cd "$HOME/projects/$repo"
-    git remote set-url origin git@gitlab.com:mwguy/$repo.git
+    git remote set-url origin git@gitlab.com:autolife/development/$repo.git
   fi
 
   # Link config files
