@@ -91,6 +91,12 @@ create_directory_structure() {
 
 # This is assuming keychains are set up
 install_common() {
+  # add some additional sources for common programs
+  is_in_sources git-core
+  if [ $? -eq 1 ]; then
+    sudo add-apt-repository -y ppa:git-core/ppa
+  fi
+
   sudo apt update -y
   sudo apt upgrade -y
   # Required software for building other dependencies
@@ -104,6 +110,13 @@ install_common() {
     libreadline-dev libsqlite3-dev libncurses5-dev \
     libncursesw5-dev xz-utils libgit2-24 libgit2-dev \
     libutf8proc-dev libutf8proc1 \
+  # Git addons
+  git lfs --version &> /dev/null
+  if [ $? -eq 1 ]; then
+    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+    sudo apt-get install git-lfs -y
+    git lfs install
+  fi
   # Languages
   sudo apt install -y python3-pip python-dev python3-dev \
     lua5.3 liblua5.3-0 liblua5.3-dev \
